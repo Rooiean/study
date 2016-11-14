@@ -1,0 +1,29 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "./webpack.user.config.js"
+      }
+    }
+  },
+  "rules": {
+    "camelcase": 0,
+    "no-underscore-dangle": 0,
+    "import/no-unresolved": 0,
+    "consistent-return": 0
+  }
+}

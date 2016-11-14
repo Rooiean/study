@@ -1,0 +1,84 @@
+@font-face {
+    font-family: 'icomoon';
+    src:    url('fonts/icomoon.eot?pl7q9j');
+    src:    url('fonts/icomoon.eot?pl7q9j#iefix') format('embedded-opentype'),
+        url('fonts/icomoon.ttf?pl7q9j') format('truetype'),
+        url('fonts/icomoon.woff?pl7q9j') format('woff'),
+        url('fonts/icomoon.svg?pl7q9j#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-home_menu_arrow:before {
+    content: "\e90e";
+}
+.icon-check:before {
+    content: "\e913";
+}
+.icon-setting:before {
+    content: "\e912";
+}
+.icon-heart_line:before {
+    content: "\e911";
+}
+.icon-heart:before {
+    content: "\e910";
+}
+.icon-camera:before {
+    content: "\e906";
+}
+.icon-add:before {
+    content: "\e907";
+}
+.icon-career:before {
+    content: "\e908";
+}
+.icon-graduation_cap:before {
+    content: "\e909";
+}
+.icon-pen:before {
+    content: "\e90a";
+}
+.icon-profile:before {
+    content: "\e90b";
+}
+.icon-resume:before {
+    content: "\e90c";
+}
+.icon-star:before {
+    content: "\e90d";
+}
+.icon-bookmark:before {
+    content: "\e905";
+}
+.icon-search:before {
+    content: "\e900";
+}
+.icon-bell:before {
+    content: "\e901";
+}
+.icon-logo:before {
+    content: "\e902";
+}
+.icon-drawer:before {
+    content: "\e903";
+}
+.icon-close:before {
+    content: "\e904";
+}
+
