@@ -2,15 +2,14 @@
   "name": "superagent",
   "main": "lib/client.js",
   "homepage": "https://github.com/visionmedia/superagent",
-  "version": "1.8.3",
-  "_release": "1.8.3",
+  "version": "1.8.4",
+  "_release": "1.8.4",
   "_resolution": {
     "type": "version",
-    "tag": "v1.8.3",
-    "commit": "4d986d7f0c1efd8d0690c95a9276a6c818b758f7"
+    "tag": "v1.8.4",
+    "commit": "cc9b9df42a07d148c2ba2fe1db250f2a43434b2b"
   },
-  "_source": "git://github.com/visionmedia/superagent.git",
+  "_source": "https://github.com/visionmedia/superagent.git",
   "_target": "^1.8.3",
-  "_originalSource": "superagent",
-  "_direct": true
+  "_originalSource": "superagent"
 }

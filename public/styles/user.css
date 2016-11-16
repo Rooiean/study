@@ -1,0 +1,58 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0; }
+
+.page-wrapper {
+  height: 100%;
+  position: relative; }
+
+.left-column {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100%;
+  background: #272634;
+  color: #858598; }
+  .left-column a:hover {
+    color: #C9C7EF; }
+
+.right-column {
+  width: 85%;
+  margin-left: 15%;
+  background: #f2f2f2;
+  min-height: 100%;
+  padding: 30px; }
+
+.menu h3 {
+  margin: 0;
+  padding: 20px 10px;
+  background: rgba(0, 0, 0, 0.22); }
+  .menu h3 a {
+    color: #ffffff;
+    text-decoration: none; }
+  .menu h3 i {
+    width: 30px;
+    display: inline-block;
+    text-align: center; }
+  .menu h3 span {
+    display: inline-block; }
+.menu ul li {
+  display: block; }
+  .menu ul li a {
+    font-size: 0.9em;
+    display: block;
+    padding: 15px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .menu ul li a i {
+      width: 25px;
+      display: inline-block;
+      text-align: center; }
+    .menu ul li a span {
+      display: inline-block; }
+
+/*sass --watch ./src/user/styles/user.scss:./public/styles/user.css*/
+
+/*# sourceMappingURL=user.css.map */

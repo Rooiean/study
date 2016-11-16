@@ -25,7 +25,7 @@ gulp.task('concat', function () {
     'public/vendor/underscore.string/dist/underscore.string.min.js',
     'public/vendor/jquery/dist/jquery.min.js',
     'public/vendor/superagent/superagent.min.js',
-    'public/vendor/js-cookie/src/js.cookie.min.js',
+    'public/vendor/js-cookie/src/js.cookie.js',
     'public/vendor/moment/min/moment.min.js',
     'public/vendor/bootstrap/js/bootstrap.min.js',
     'public/vendor/react/react.min.js',
@@ -77,9 +77,9 @@ gulp.task('lint', function () {
 
 gulp.task('watch', function () {
     gulp.watch(['src/**/*.js', 'src/**/*.jsx'], ['lint']);
-    gulp.watch(['**/*.sass', '**/*.scss'], ['user-style']);
+    gulp.watch(['src/user/styles/**/*.sass', 'src/user/styles/**/*.scss'], ['user-style']);
     gulp.watch(['src/admin/styles/**/*.sass', 'src/admin/styles/**/*.scss'], ['admin-style']);
 });
 
-gulp.task('default', ['concat', 'user-style', 'admin-style', 'watch', 'webpack:admin']);
+gulp.task('default', ['concat', 'watch', 'webpack:user', 'webpack:admin']);
 gulp.task('build', ['concat', 'user-style', 'admin-style', 'webpack:build']);

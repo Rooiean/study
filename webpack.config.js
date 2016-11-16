@@ -72,6 +72,10 @@ module.exports = {
       containers: path.join(__dirname, `src/${proj}/containers`)
     }
   },
+  devServer: {
+    port: 3000,
+    historyApiFallback: true
+ },
   plugins: [
     new webpack.NoErrorsPlugin()
   ].concat(_.isEqual(env, 'production') ?

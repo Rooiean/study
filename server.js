@@ -9,7 +9,7 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 app.get('/admin/*', function (req, res) {
   res.sendFile(__dirname +'/public/admin.html')
 });
-app.get('/*', function (req, res) {
+app.get('*', function (req, res) {
   res.sendFile(__dirname +'/public/user.html')
 });
 app.use(bodyParser.json());
