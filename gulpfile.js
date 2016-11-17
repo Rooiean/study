@@ -12,8 +12,20 @@ gulp.task('webpack:user', shell.task([
   'webpack --progress --proj user --env production'
 ]));
 
+gulp.task('webpack:user-dev', shell.task([
+  'webpack --progress --proj user --env development'
+]));
+
 gulp.task('webpack:admin', shell.task([
   'webpack --progress --proj admin --env production'
+]));
+
+gulp.task('userstyle', shell.task([
+  'sass --watch ./src/user/styles/user.scss:./public/styles/user.css'
+]));
+
+gulp.task('adminstyle', shell.task([
+  'sass --watch ./src/admin/styles/admin.scss:./public/styles/admin.css'
 ]));
 
 gulp.task('concat', function () {
@@ -81,5 +93,5 @@ gulp.task('watch', function () {
     gulp.watch(['src/admin/styles/**/*.sass', 'src/admin/styles/**/*.scss'], ['admin-style']);
 });
 
-gulp.task('default', ['concat', 'watch', 'webpack:user', 'webpack:admin']);
+gulp.task('default', ['concat', 'watch', 'userstyle', 'adminstyle', 'webpack:user', 'webpack:admin']);
 gulp.task('build', ['concat', 'user-style', 'admin-style', 'webpack:build']);

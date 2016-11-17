@@ -5,30 +5,7 @@ html, body {
   margin: 0;
 }
 
-.page-wrapper {
-  height: 100%;
-  position: relative;
-}
-
-.left-column {
-  position:fixed;
-  top:0;
-  left:0;
-  width:15%;
-  height:100%;
-  background:#272634;
-  color:#858598;
-  a {
-    &:hover {
-      color:#C9C7EF;
-    }
-  }
-}
-
-.right-column {
-  width:85%;
-  margin-left:15%;
-  background:#f2f2f2;
-  min-height:100%;
-  padding:30px;
+.menu {
+  border-radius: 0;
+  margin-bottom:0;
 }

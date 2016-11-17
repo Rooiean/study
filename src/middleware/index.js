@@ -56,7 +56,7 @@ export const api = store => next => action => {
     _.forEach(params, (value, key) => (req = req.field(key, value)));
     _.forEach(headers, (value, key) => (req = req.set(key, value)));
 
-    return req.withCredentials().use(noCache)
+    return req.use(noCache)
     .then(response => {
       const payload = { [status]: 'success' };
       const _response = _.isEmpty(source) ? response.body : _.get(response.body, source);
@@ -83,7 +83,7 @@ export const api = store => next => action => {
     req = req.send(params);
   }
 
-  return req.withCredentials().use(noCache)
+  return req.use(noCache)
   .then(response => {
     const payload = { [status]: 'success' };
     const _response = _.isEmpty(source) ? response.body : _.get(response.body, source);
