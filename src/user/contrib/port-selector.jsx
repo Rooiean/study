@@ -13,6 +13,7 @@ export default class PortSelector extends Component {
       portState: 'default',
       options: [],
       value: '',
+      port: '',
     };
 
     this.handleSelectPortType = this.handleSelectPortType.bind(this);
@@ -20,7 +21,7 @@ export default class PortSelector extends Component {
   }
 
   componentDidMount() {
-    store.dispatch(search.portSearch()).then(() =>
+    store.dispatch(search.allPorts()).then(() =>
       this.getOptions()
     );
   }
@@ -30,6 +31,8 @@ export default class PortSelector extends Component {
     const { portState } = this.state;
 
     this.setState({ portState: portType });
+
+    store.dispatch(search.portSearch({type: portType}, ALL));
   }
 
   getOptions() {
@@ -38,16 +41,23 @@ export default class PortSelector extends Component {
     this.setState({ options: data });
   }
 
-  setValue(e) {
+  setCountry(e) {
     const { value } = this.state;
-    this.setState({value: e.name });
+    this.setState({ value: e });
+    console.log('Support level selected:', e.name);
+	}
+
+  setPort(e) {
+    const { port } = this.state;
+    this.setState({ port: e });
     console.log('Support level selected:', e.name);
 	}
 
   render() {
-    const { portState, options, vlaue } = this.state;
+    const { portState, options, vlaue, port } = this.state;
     const { label } = this.props;
     const placeholder = '국가를 선택하세요.';
+    const placeholder2 = '포트를 선택하세요.';
 
     return (
       <div>
@@ -64,7 +74,7 @@ export default class PortSelector extends Component {
           labelKey="name"
           options={options}
           placeholder={placeholder}
-          onChange={e =>this.setValue(e)}
+          onChange={e =>this.setCountry(e)}
         	value={this.state.value}
         />
 
@@ -84,9 +94,9 @@ export default class PortSelector extends Component {
           valueKey="id"
           labelKey="name"
           options={options}
-          placeholder={placeholder}
-          onChange={e=> this.setValue(e)}
-        	value={this.state.value}
+          placeholder={placeholder2}
+          onChange={e=> this.setPort(e)}
+        	value={this.state.port}
         />
       </div>
     );

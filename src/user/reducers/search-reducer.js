@@ -9,5 +9,6 @@ const initialState = {
 };
 
 export default handleActions({
+  [search.ALL_PORTS]: (state, action) => _.assign({}, state, action.payload),
   [search.PORT_SEARCH]: (state, action) => _.assign({}, state, action.payload),
 }, initialState);
