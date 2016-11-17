@@ -40,12 +40,12 @@ export default class PortSelector extends Component {
 
   setValue(e) {
     const { value } = this.state;
-		this.setState({ value: e.target.value });
-		console.log('Support level selected:', value);
+    this.setState({value: e.name });
+    console.log('Support level selected:', e.name);
 	}
 
   render() {
-    const { portState, options } = this.state;
+    const { portState, options, vlaue } = this.state;
     const { label } = this.props;
     const placeholder = '국가를 선택하세요.';
 
@@ -65,7 +65,7 @@ export default class PortSelector extends Component {
           options={options}
           placeholder={placeholder}
           onChange={e =>this.setValue(e)}
-					value={this.state.value}
+        	value={this.state.value}
         />
 
         {
@@ -86,7 +86,7 @@ export default class PortSelector extends Component {
           options={options}
           placeholder={placeholder}
           onChange={e=> this.setValue(e)}
-					value={this.state.value}
+        	value={this.state.value}
         />
       </div>
     );
