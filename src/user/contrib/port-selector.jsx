@@ -35,6 +35,7 @@ export default class PortSelector extends Component {
       portState: portType,
       port: '',
       value: '',
+      id: '',
      });
 
     store.dispatch(search.portSearch(portType, 'ALL')).then(() =>
@@ -50,10 +51,10 @@ export default class PortSelector extends Component {
     }).concat(), 'value');
 
     const ports = _.map(data, _data => {
-      return { value: _data.id, port: _data.name + ' / ' + _data.locationCode, country: _data.countryCode }
+      return { id: _data.id, port: _data.name + ' / ' + _data.locationCode, country: _data.countryCode }
     }).concat();
 
-    console.log(countries);
+    console.log(ports);
     this.setState({
       options: ports,
       options2: countries,
@@ -76,10 +77,14 @@ export default class PortSelector extends Component {
 	}
 
   setPort(e) {
-    const { port, value } = this.state;
-    this.setState({ port: e, value: e.country });
-    console.log('Support level selected:', e.port);
+    const { port, value, id } = this.state;
+    this.setState({ port: e, value: e.country, id:e.id });
+    console.log('Support level selected:', e.port, e.id);
 	}
+
+  selectedPort() {
+    return this.state.id;
+  }
 
   render() {
     const { portState, options, options2, vlaue, port } = this.state;
