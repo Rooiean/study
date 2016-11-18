@@ -10,8 +10,9 @@ export default class PortSelector extends Component {
     super(props);
 
     this.state = {
-      portState: 'default',
+      portState: 'ALL',
       options: [],
+      options2: [],
       value: '',
       port: '',
     };
@@ -28,33 +29,60 @@ export default class PortSelector extends Component {
 
   handleSelectPortType() {
     const portType = this.refs.portType.getValue();
-    const { portState } = this.state;
+    const { portState, port, value } = this.state;
 
-    this.setState({ portState: portType });
+    this.setState({
+      portState: portType,
+      port: '',
+      value: '',
+     });
 
-    store.dispatch(search.portSearch({type: portType}, ALL));
+    store.dispatch(search.portSearch(portType, 'ALL')).then(() =>
+      this.getOptions()
+    );
   }
 
   getOptions() {
     const { data } = store.getState().search;
-    console.log(data);
-    this.setState({ options: data });
+
+    const countries = _.uniqBy(_.map(data, _data => {
+      return { value: _data.countryCode, country: _data.countryCode }
+    }).concat(), 'value');
+
+    const ports = _.map(data, _data => {
+      return { value: _data.id, port: _data.name + ' / ' + _data.locationCode, country: _data.countryCode }
+    }).concat();
+
+    console.log(countries);
+    this.setState({
+      options: ports,
+      options2: countries,
+     });
   }
 
   setCountry(e) {
-    const { value } = this.state;
-    this.setState({ value: e });
-    console.log('Support level selected:', e.name);
+    const { value, portState, port } = this.state;
+    this.setState({ value: e, port: '' });
+    console.log('Support level selected:', e);
+    if (!_.isEmpty(e)) {
+      store.dispatch(search.portSearch(portState, e.country)).then(() =>
+        this.getOptions()
+      );
+    } else {
+      store.dispatch(search.portSearch(portState, 'ALL')).then(() =>
+        this.getOptions()
+      );
+    }
 	}
 
   setPort(e) {
-    const { port } = this.state;
-    this.setState({ port: e });
-    console.log('Support level selected:', e.name);
+    const { port, value } = this.state;
+    this.setState({ port: e, value: e.country });
+    console.log('Support level selected:', e.port);
 	}
 
   render() {
-    const { portState, options, vlaue, port } = this.state;
+    const { portState, options, options2, vlaue, port } = this.state;
     const { label } = this.props;
     const placeholder = '국가를 선택하세요.';
     const placeholder2 = '포트를 선택하세요.';
@@ -63,16 +91,16 @@ export default class PortSelector extends Component {
       <div>
         <label>{label}</label>
         <Input ref="portType" type="select" onChange={this.handleSelectPortType}>
-          <option value="default">포트유형</option>
-          <option value="airport">공항(Airport)</option>
-          <option value="seaport">항구(Seaport)</option>
+          <option value="ALL">포트유형</option>
+          <option value="AIRPORT">공항(Airport)</option>
+          <option value="SEAPORT">항구(Seaport)</option>
         </Input>
         <label>국가</label>
         <Select
           name="form-field-name"
-          valueKey="id"
-          labelKey="name"
-          options={options}
+          valueKey="value"
+          labelKey="country"
+          options={options2}
           placeholder={placeholder}
           onChange={e =>this.setCountry(e)}
         	value={this.state.value}
@@ -80,19 +108,19 @@ export default class PortSelector extends Component {
 
         {
           (() => {
-            if (_.isEqual(portState, 'default')) {
-              return <label>포트</label>;
-            } else if (_.isEqual(portState, 'airport')) {
+            if (_.isEqual(portState, 'AIRPORT')) {
               return <label>공항</label>;
-            } else if (_.isEqual(portState, 'seaport')) {
+            } else if (_.isEqual(portState, 'SEAPORT')) {
               return <label>항구</label>;
+            } else {
+              return <label>포트</label>;
             }
           })()
         }
         <Select
           name="form-field-name"
           valueKey="id"
-          labelKey="name"
+          labelKey="port"
           options={options}
           placeholder={placeholder2}
           onChange={e=> this.setPort(e)}

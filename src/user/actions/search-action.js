@@ -18,11 +18,11 @@ export const __portSearch__ = createAction(PORT_SEARCH);
  export const allPorts = () => dispatch =>
    dispatch(__allPorts__({
      method: 'get',
-     path: 'http://192.168.1.23:4567/ports?type=ALL&countrycode=ALL',
+     path: 'http://138.91.25.49:4567/ports?type=ALL&countrycode=ALL',
    }));
 
 export const portSearch = (type, country) => dispatch =>
   dispatch(__portSearch__({
     method: 'get',
-    path: `http://192.168.1.23:4567/ports?type=${type}&countrycode=${country}`,
+    path: `http://138.91.25.49:4567/ports?type=${type}&countrycode=${country}`,
   }));
