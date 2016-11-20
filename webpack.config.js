@@ -25,7 +25,7 @@ if (!_.includes(['production', 'development'], env)) {
   throw colors.red(`${env} is not available mode, it support production or development only.`);
 }
 
-var startMessage = `${_.toUpper(proj)} PROJECT BUILD NOW AS A ${_.toUpper(env)} MODE!! MAKE TO SEXY PLEASE!!!`;
+var startMessage = `${_.toUpper(proj)} PROJECT BUILD NOW AS A ${_.toUpper(env)} MODE.`;
 console.log(colors[_.isEqual(env, 'production') ? 'cyan' : 'yellow'].bold(startMessage));
 
 // Config

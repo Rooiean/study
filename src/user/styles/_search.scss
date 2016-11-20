@@ -2,10 +2,80 @@
   background:#272634;
   color:#858598;
   padding: 30px 0;
-  
+
   a {
     &:hover {
       color:#C9C7EF;
+    }
+  }
+
+  .btn-success {
+    float: right;
+    min-width: 200px;
+  }
+}
+
+
+.result-container {
+  width:100%;
+  .count {
+    margin-top:20px;
+    text-align: right;
+    font-weight: normal;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 20px;
+
+    em {
+      font-weight: bold;
+      color:#F44336;
+      font-style: normal;
+    }
+  }
+
+  .search-result {
+    width:100%;
+
+    .search-th {
+        font-size:16px;
+        padding: 10px;
+        background: #f2f2f2;
+        font-weight: bold;
+    }
+
+    ul {
+      list-style-type: none;
+      margin:0;
+      padding:0;
+       li {
+         display: block;
+         border-bottom: 1px solid #e0e0e0;
+       }
+    }
+
+    span.td {
+      width:12.5%;
+      display: inline-block;
+      vertical-align: middle;
+
+      &.sport, &.dport {
+        width:30%;
+      }
+
+      &.depth, &.term {
+        width: 8%;
+      }
+
+      &.cost {
+        width:14%;
+      }
+      &.map-btn {
+        width:10%;
+        text-align: center;
+      }
+    }
+
+    .result-contents {
+      padding:10px;
     }
   }
 }

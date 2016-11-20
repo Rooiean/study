@@ -14,6 +14,54 @@ html, body {
   padding: 30px 0; }
   .header a:hover {
     color: #C9C7EF; }
+  .header .btn-success {
+    float: right;
+    min-width: 200px; }
+
+.result-container {
+  width: 100%; }
+  .result-container .count {
+    margin-top: 20px;
+    text-align: right;
+    font-weight: normal;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 20px; }
+    .result-container .count em {
+      font-weight: bold;
+      color: #F44336;
+      font-style: normal; }
+  .result-container .search-result {
+    width: 100%; }
+    .result-container .search-result .search-th {
+      font-size: 16px;
+      padding: 10px;
+      background: #f2f2f2;
+      font-weight: bold; }
+    .result-container .search-result ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0; }
+      .result-container .search-result ul li {
+        display: block;
+        border-bottom: 1px solid #e0e0e0; }
+    .result-container .search-result span.td {
+      width: 12.5%;
+      display: inline-block;
+      vertical-align: middle; }
+      .result-container .search-result span.td.sport, .result-container .search-result span.td.dport {
+        width: 30%; }
+      .result-container .search-result span.td.depth, .result-container .search-result span.td.term {
+        width: 8%; }
+      .result-container .search-result span.td.cost {
+        width: 14%; }
+      .result-container .search-result span.td.map-btn {
+        width: 10%;
+        text-align: center; }
+    .result-container .search-result .result-contents {
+      padding: 10px; }
+
+.map {
+  height: 300px; }
 
 /*sass --watch ./src/user/styles/user.scss:./public/styles/user.css*/
 
