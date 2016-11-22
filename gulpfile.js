@@ -20,6 +20,10 @@ gulp.task('webpack:admin', shell.task([
   'webpack --progress --proj admin --env production'
 ]));
 
+gulp.task('webpack:admin-dev', shell.task([
+  'webpack --progress --proj admin --env development'
+]));
+
 gulp.task('userstyle', shell.task([
   'sass --watch ./src/user/styles/user.scss:./public/styles/user.css'
 ]));

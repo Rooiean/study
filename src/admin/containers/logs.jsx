@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class Logs extends Component {
+export class Logs extends Component {
   render() {
     return (
       <div>
@@ -9,3 +10,5 @@ export default class Logs extends Component {
     );
   }
 }
+
+export default connect(state=>state)(Logs);

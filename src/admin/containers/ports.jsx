@@ -1,9 +1,24 @@
+import _ from 'lodash';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { search } from 'actions';
 
-export default class Ports extends Component {
+export class Ports extends Component {
+  componentDidMount() {
+    this.props.dispatch(search.allPorts());
+  }
   render() {
+    const { allPorts } = this.props.search;
     return (
-      <div>ports</div>
+      <div>
+        {
+          _.map(allPorts, (port, index) => {
+            return <div key={index}>{port.name}</div>;
+          })
+        }
+      </div>
     );
   }
 }
+
+export default connect(state => state)(Ports);

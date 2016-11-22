@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import GoogleMap from 'google-map-react';
-import { fitBounds } from 'google-map-react/utils';
+import GoogleMap, { fitBounds } from 'google-map-react';
 import Svg from './svg';
 
 import MyGreatPlace from './my-great-place';
@@ -12,8 +11,8 @@ export default class Map extends Component {
     super(props);
 
     this.state = {
-      pInfos : [],
-      transInfos : [],
+      pInfos: [],
+      transInfos: [],
       bounds: [],
       googleApiLoaded: false
     }
@@ -30,16 +29,18 @@ export default class Map extends Component {
 
   routeInformation() {
     const { route } = this.props;
-    const minuszero = _.pullAt(route, [0, 1]);
+    const reRoute = _.concat(route);
+    console.log(reRoute);
+    const minuszero = _.pullAt(reRoute, [0, 1]);
 
     const even = [];
     const odd = [];
 
-    for (let i=0; i<route.length; i++){
+    for (let i=0; i<reRoute.length; i++){
       if (i%2==0) {
-        even.push(route[i]);
+        even.push(reRoute[i]);
       } else {
-        odd.push(route[i]);
+        odd.push(reRoute[i]);
       }
     }
 
@@ -126,6 +127,7 @@ export default class Map extends Component {
           height="300px"
           zoom={5} center={[24.886, -70.268]}
           onGoogleApiLoaded={this.onGoogleApiLoaded}
+          yesIWantToUseGoogleMapApiInternals={true}
           >
           {
             (() => {
@@ -138,7 +140,7 @@ export default class Map extends Component {
                     key={index}
                     lat={pinfo.latitude}
                     lng={pinfo.longitude}
-                    text={index}
+                    text={index+1}
                   />
                 ))
               );

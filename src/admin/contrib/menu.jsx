@@ -20,7 +20,7 @@ export default class Menu extends Component {
             </Link>
           </li>
           <li>
-            <Link to="logs">
+            <Link to="/admin/logs">
               <i className="fa fa-list-alt" />
               <span>Change Logs</span>
             </Link>

@@ -7,6 +7,7 @@ export const ALL_PORTS = '[API] ALL_PORTS';
 export const ALL_TRANSPORTS = '[API] ALL_TRANSPORTS';
 export const PORT_SEARCH = '[API] PORT_SEARCH';
 export const ROUTE_SEARCH = '[API] ROUTE_SEARCH';
+export const DETECT_LOGS = '[API] DETECT_LOGS';
 
 /* =========================================================
  * Private Actions
@@ -16,6 +17,7 @@ export const __allPorts__ = createAction(ALL_PORTS);
 export const __allTransports__ = createAction(ALL_TRANSPORTS);
 export const __portSearch__ = createAction(PORT_SEARCH);
 export const __routeSearch__ = createAction(ROUTE_SEARCH);
+export const __detectLogs__ = createAction(DETECT_LOGS);
 
 /* =========================================================
  * Actions
@@ -46,6 +48,13 @@ export const portSearch = (type, country) => dispatch =>
 export const routeSearch = (sport, dport, depth, cost, term) => dispatch =>
   dispatch(__routeSearch__({
     method: 'get',
-    path: `http://138.91.25.49:4567/searchroutes/routes?sport=${sport}&dport=${dport}&limitdepth=${depth}&costlimit=${cost}&termlimit=${term}`,
+    path: prefix + `/searchroutes/routes?sport=${sport}&dport=${dport}&limitdepth=${depth}&costlimit=${cost}&termlimit=${term}`,
     dist: 'routes', status: 'routesStatus',
+  }))
+
+export const detectLogs = () => dispatch =>
+  dispatch(__detectLogs__({
+    method:'get',
+    path: prefix + '/searchroutes/detectlog?sport=AIR4&dport=AIR10&resultcount=10',
+    dist: 'logs', status: 'logStatus',
   }))

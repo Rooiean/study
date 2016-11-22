@@ -27,7 +27,7 @@ app.get('/admin/*', function (req, res) {
   res.sendFile(__dirname +'/public/admin.html')
 });
 app.get('*', function (req, res) {
-  res.sendFile(__dirname +'/public/user.html')
+  res.sendFile(__dirname +'/public/index.html')
 });
 app.use(allowCrossDomain);
 app.use(bodyParser.json());

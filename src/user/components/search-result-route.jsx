@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import Map from './map';
@@ -9,6 +10,7 @@ export default class SearchResultRoute extends Component {
 
     this.state = {
       showMap: false,
+      showMapText: '지도보기',
     }
 
     this.findPortInfo = this.findPortInfo.bind(this);
@@ -23,13 +25,25 @@ export default class SearchResultRoute extends Component {
   }
 
   viewResultMap() {
-    this.setState({ showMap : true })
+    const { showMap } = this.state;
+
+    if(showMap) {
+        this.setState({
+          showMap : false,
+          showMapText: '지도보기',
+       });
+    } else {
+        this.setState({
+          showMap : true,
+          showMapText: '지도닫기',
+       });
+    }
   }
 
 
   render() {
     const { route } = this.props;
-    const { showMap } = this.state;
+    const { showMap, showMapText } = this.state;
     const { allPorts } = this.props.search;
     const { transports } = this.props.search;
 
@@ -42,7 +56,7 @@ export default class SearchResultRoute extends Component {
           <span className="td cost">$ { _.head(route) }</span>
           <span className="td term">{ _.nth(route, 1) } 일</span>
           <span className="td map-btn">
-            <Button bsStyle="info" onClick={this.viewResultMap}>지도보기</Button>
+            <Button bsStyle="info" onClick={this.viewResultMap}>{ showMapText }</Button>
           </span>
         </div>
         { (showMap) ? <Map route={route} allPorts={allPorts} transports={transports}  /> : null }

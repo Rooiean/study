@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Panel, Input, Select, Button, Row, Col } from 'react-bootstrap';
 import Slider from 'rc-slider';
