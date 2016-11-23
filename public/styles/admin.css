@@ -26,6 +26,17 @@ html, body {
   min-height: 100%;
   padding: 30px; }
 
+.fl {
+  float: left;
+  display: block; }
+
+.fr {
+  float: right;
+  display: block; }
+
+.cb {
+  clear: both; }
+
 .menu a {
   color: #ffffff;
   text-decoration: none; }
@@ -59,6 +70,10 @@ html, body {
 .tables {
   width: 100%;
   display: block; }
+  .tables .add {
+    margin-top: 20px; }
+  .tables hr {
+    margin: 10px 0; }
   .tables .btn-primary {
     margin-right: 3px; }
   .tables .th {
@@ -69,21 +84,29 @@ html, body {
   .tables .tbody {
     border-bottom: 1px solid #e0e0e0;
     padding: 10px;
-    background: #ffffff; }
+    background: #ffffff;
+    font-size: 12px; }
   .tables .th, .tables .tbody {
     text-align: center; }
     .tables .th div, .tables .tbody div {
       display: inline-block;
-      width: 10%;
+      width: 8%;
       vertical-align: middle; }
-      .tables .th div.name, .tables .tbody div.name {
-        width: 20%; }
-      .tables .th div.r-time, .tables .tbody div.r-time {
-        width: 5%; }
-      .tables .th div.small-td, .tables .tbody div.small-td {
-        width: 8%; }
+      .tables .th div.sm-td, .tables .tbody div.sm-td {
+        width: 4%; }
+      .tables .th div.md-td, .tables .tbody div.md-td {
+        width: 9%; }
+      .tables .th div.lg-td, .tables .tbody div.lg-td {
+        width: 15%; }
       .tables .th div.btns, .tables .tbody div.btns {
-        width: 11%; }
+        width: 10%; }
+
+.detail-modal .check-boxes .form-group {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 20px; }
+.detail-modal hr {
+  margin: 0 0 10px 0; }
 
 /*sass --watch ./src/admin/styles/admin.scss:./public/styles/admin.css*/
 

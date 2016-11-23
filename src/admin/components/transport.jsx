@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { DetailModal, DeleteModal } from './modals';
 import { Button } from 'react-bootstrap';
@@ -11,10 +12,43 @@ export default class Transport extends Component {
       showDeleteModal: false,
     }
 
+    this.findPortInfo = this.findPortInfo.bind(this);
     this.handleShowDetailModal = this.handleShowDetailModal.bind(this);
     this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
     this.handleHideDetailModal = this.handleHideDetailModal.bind(this);
     this.handleHideDeleteModal = this.handleHideDeleteModal.bind(this);
+  }
+
+  findPortInfo(queryText) {
+    const { allPorts } = this.props;
+    const portInfo = _.find(allPorts, { 'id': queryText });
+    return <span>{ portInfo.name }({portInfo.locationCode}) / { portInfo.type }</span>;
+  }
+
+  cycleNumberToWeek(cycle) {
+    const cycleNumbers = _.split(cycle, '');
+    const week = ['일', '월', '화', '수', '목', '금', '토'];
+    let numberWeeks = [];
+
+    for(let i=0; i < cycleNumbers.length; i++) {
+      const l = _.nth(cycleNumbers, i);
+      const j = _.nth(week, i);
+
+      numberWeeks.push({
+        cycle: l,
+        oneOfWeek: j,
+      });
+    }
+
+    const cycleNumberToWeeks = _.map(numberWeeks, (numberWeek, index) => {
+      if(_.isEqual(numberWeek.cycle, '1')) {
+         return <span key={index}>{ numberWeek.oneOfWeek }</span>;
+      } else {
+        return null;
+      }
+    });
+
+    return cycleNumberToWeeks;
   }
 
   handleShowDetailModal() {
@@ -34,27 +68,41 @@ export default class Transport extends Component {
   }
 
   render() {
-    const { transport } = this.props;
+    const { allPorts, transport } = this.props;
     const { showDetailModal, showDeleteModal } = this.state;
     return (
       <div>
         <div className="tbody">
-          <div className="small-td">{ transport.id }</div>
+          <div className="sm-td">{ transport.id }</div>
           <div>{ transport.type }</div>
-          <div className="name">{ transport.name }</div>
-          <div>{ transport.cost }</div>
-          <div>{ transport.cycle }</div>
-          <div className="small-td">{ transport.sourcePort }</div>
-          <div className="small-td">{ transport.destinationPort }</div>
-          <div className="r-time">{ transport.requiredTime }</div>
+          <div className="lg-td">{ transport.name }</div>
+          <div>$ { transport.cost }</div>
+          <div className="sm-td"></div>
+          <div className="md-td">{ this.cycleNumberToWeek(transport.cycle) }</div>
+          <div className="lg-td">{ this.findPortInfo(transport.sourcePort) }</div>
+          <div className="lg-td">{ this.findPortInfo(transport.destinationPort) }</div>
+          <div className="sm-td">{ transport.requiredTime } 일</div>
           <div>{ transport.status }</div>
           <div className="btns">
             <Button bsStyle="primary" onClick={this.handleShowDetailModal}>수정</Button>
             <Button bsStyle="warning" onClick={this.handleShowDeleteModal}>삭제</Button>
           </div>
         </div>
-        { (showDetailModal) ? <DetailModal transport={transport} showModal={showDetailModal} onHide={this.handleHideDetailModal}/> : null }
-        { (showDeleteModal) ? <DeleteModal transport={transport} showModal={showDeleteModal} onHide={this.handleHideDeleteModal}/> : null }
+        { (showDetailModal) ?
+          <DetailModal
+            transport={transport}
+            showModal={showDetailModal}
+            onHide={this.handleHideDetailModal}
+            allPorts={allPorts}
+            sourcePort={ this.findPortInfo(transport.sourcePort) }
+            destinationPort={ this.findPortInfo(transport.destinationPort) }
+          /> : null }
+        { (showDeleteModal) ?
+          <DeleteModal
+            transport={transport}
+            showModal={showDeleteModal}
+            onHide={this.handleHideDeleteModal}
+          /> : null }
       </div>
     );
   }

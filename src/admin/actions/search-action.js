@@ -50,11 +50,11 @@ export const routeSearch = (sport, dport, depth, cost, term) => dispatch =>
     method: 'get',
     path: prefix + `/searchroutes/routes?sport=${sport}&dport=${dport}&limitdepth=${depth}&costlimit=${cost}&termlimit=${term}`,
     dist: 'routes', status: 'routesStatus',
-  }))
+  }));
 
 export const detectLogs = () => dispatch =>
   dispatch(__detectLogs__({
     method:'get',
     path: prefix + '/searchroutes/detectlog?sport=AIR4&dport=AIR10&resultcount=10',
     dist: 'logs', status: 'logStatus',
-  }))
+  }));

@@ -2,6 +2,14 @@
   width: 100%;
   display: block;
 
+  .add {
+      margin-top:20px;
+  }
+
+  hr {
+    margin:10px 0;
+  }
+
   .btn-primary {
     margin-right:3px;
   }
@@ -15,28 +23,29 @@
     border-bottom: 1px solid #e0e0e0;
     padding:10px;
     background: #ffffff;
+    font-size: 12px;
   }
   .th, .tbody {
     text-align: center;
     div {
       display: inline-block;
-      width:10%;
+      width:8%;
       vertical-align: middle;
 
-      &.name {
-        width: 20%;
+      &.sm-td {
+        width:4%;
       }
 
-      &.r-time {
-        width:5%;
+      &.md-td {
+        width:9%;
       }
 
-      &.small-td {
-        width:8%;
+      &.lg-td {
+        width: 15%;
       }
 
       &.btns {
-        width:11%;
+        width:10%;
       }
     }
   }
