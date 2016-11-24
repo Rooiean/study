@@ -17,7 +17,7 @@ export default class Search extends Component {
     const origin = this.refs.origin.selectedPort();
     const destination = this.refs.destination.selectedPort();
     const depth = this.refs.depth.getValue();
-    const cost = this.refs.cost.getValue() * 10000;
+    const cost = this.refs.cost.getValue() * 3500000;
     const term = this.refs.term.getValue();
 
     store.dispatch(search.routeSearch(origin, destination, depth, cost, term));
@@ -62,13 +62,13 @@ export default class Search extends Component {
               <label>
                 최대 비용
               </label>
-              <Input type="number" ref="cost"/>만원
+              <Slider allowCross={false} ref="cost"/>
             </Col>
             <Col md={4}>
               <label>
                 최대 소요 시간
               </label>
-              <Slider allowCross={false} ref="term"/>일
+              <Slider allowCross={false} ref="term"/>
             </Col>
           </Row>
         </Panel>

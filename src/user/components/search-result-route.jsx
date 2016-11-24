@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, ProgressBar } from 'react-bootstrap';
 import Map from './map';
 
 export default class SearchResultRoute extends Component {
@@ -15,6 +15,7 @@ export default class SearchResultRoute extends Component {
 
     this.findPortInfo = this.findPortInfo.bind(this);
     this.viewResultMap = this.viewResultMap.bind(this);
+    this.costProgress = this.costProgress.bind(this);
   }
 
 
@@ -40,6 +41,15 @@ export default class SearchResultRoute extends Component {
     }
   }
 
+  costProgress(cost) {
+    const now = cost/3500000;
+    let progStyle;
+    if(now>50) {
+      progStyle = 'danger';
+    } 
+    return <ProgressBar bsStyle={progStyle} now={now} />
+  }
+
 
   render() {
     const { route } = this.props;
@@ -53,7 +63,7 @@ export default class SearchResultRoute extends Component {
           <span className="td sport">{ this.findPortInfo(_.nth(route, 2)) }</span>
           <span className="td dport">{ this.findPortInfo(_.last(route)) }</span>
           <span className="td depth">{ (route.length - 5) / 2 } 번</span>
-          <span className="td cost">$ { _.head(route) }</span>
+          <span className="td cost">{ this.costProgress(_.head(route)) }</span>
           <span className="td term">{ _.nth(route, 1) } 일</span>
           <span className="td map-btn">
             <Button bsStyle="info" onClick={this.viewResultMap}>{ showMapText }</Button>

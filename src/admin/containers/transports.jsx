@@ -16,8 +16,6 @@ export class Transports extends Component {
       <div className="tables">
         <h2 className="fl">Transports</h2>
         <div className="table-actions fr">
-          <Input type="text" placeholder="Search..." /><Button>검색</Button>
-          <span>|</span>
           <Button className="add" bsStyle="primary">새로운 Transport 추가하기</Button>
         </div>
         <hr className="cb" />

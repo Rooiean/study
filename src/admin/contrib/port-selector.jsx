@@ -77,7 +77,6 @@ export default class PortSelector extends Component {
   setPort(e) {
     const { port, value, id } = this.state;
     this.setState({ port: e, value: e.country, id:e.id });
-    console.log('Support level selected:', e.port, e.id);
 	}
 
   selectedPort() {

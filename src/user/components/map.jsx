@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import GoogleMap, { fitBounds } from 'google-map-react';
-import Svg from './svg';
 
-import MyGreatPlace from './my-great-place';
+import MyGreatPlace from './route/my-great-place';
 
 const DEFAULT_REF = 'map';
 
@@ -20,7 +19,6 @@ export default class Map extends Component {
     this.routeInformation = this.routeInformation.bind(this);
     this.findPortInfoArray = this.findPortInfoArray.bind(this);
     this.onGoogleApiLoaded = this.onGoogleApiLoaded.bind(this);
-    this.drawSvg =  this.drawSvg.bind(this);
   }
 
   componentDidMount() {
@@ -30,7 +28,6 @@ export default class Map extends Component {
   routeInformation() {
     const { route } = this.props;
     const reRoute = _.concat(route);
-    console.log(reRoute);
     const minuszero = _.pullAt(reRoute, [0, 1]);
 
     const even = [];
@@ -76,6 +73,8 @@ export default class Map extends Component {
           googleApiLoaded: true
       });
 
+      console.log(this.state.pInfos);
+
       const bounds = new maps.LatLngBounds();
 
       function extendBounds(lat, lng) {
@@ -83,9 +82,31 @@ export default class Map extends Component {
           bounds.extend(latLng);
       }
       function extendCoordsBounds(pInfos) {
-          for (var i = 0; i < pInfos.length; i++) {
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+          for (i = 0; i < pInfos.length; i++) {
               if (pInfos[i].hasOwnProperty('latitude') && pInfos[i].hasOwnProperty('longitude')) {
                   extendBounds(pInfos[i].latitude, pInfos[i].longitude);
+                  var marker = new google.maps.Marker({
+                    position: {lat: pInfos[i].latitude, lng: pInfos[i].longitude},
+                    map: map,
+                    title: pInfos[i].name,
+                  });
+                  google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+                    return function() {
+                      infowindow.setContent(pInfos[i].name + '/' + pInfos[i].countryCode);
+                      infowindow.open(map, marker);
+                    }
+                  })(marker, i));
+                  google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
+                    return function() {
+                      infowindow.close(map, marker);
+                    }
+                  })(marker, i));
+
+
               } else if (Array.isArray(pInfos[i])) {
                   extendCoordsBounds(pInfos[i]);
               }
@@ -95,30 +116,27 @@ export default class Map extends Component {
       extendCoordsBounds(this.state.pInfos);
 
       map.fitBounds(bounds);
+
+
+      let latlngForPoly = _.map(this.state.pInfos, info => {
+        return { lat: info.latitude, lng: info.longitude };
+      });
+
+      var flightPath = new google.maps.Polyline({
+         path: latlngForPoly,
+         geodesic: false,
+         strokeColor: '#FF0000',
+         strokeOpacity: 1.0,
+         strokeWeight: 2
+       });
+
+       flightPath.setMap(map);
   }
 
-
-  drawSvg(ref) {
-    if (!this.state.googleApiLoaded || this.state.bounds.length == 0)
-        return null;
-      else
-        return (
-          <Svg
-              lat={this.state.bounds[0]}
-              lng={this.state.bounds[1]}
-              coordinates={this.state.pInfos}
-              bounds={this.state.bounds}
-              zoom={5}
-              height={this.refs[ref] ? this.refs[ref].offsetHeight : 0}
-              width={this.refs[ref] ? this.refs[ref].offsetWidth : 0} />
-        );
-    }
 
   render() {
     const { pInfos, transInfos } = this.state;
     const ref = this.props.ref || DEFAULT_REF;
-
-    console.log(pInfos, transInfos);
 
     return (
       <div className="map">
@@ -128,26 +146,7 @@ export default class Map extends Component {
           zoom={5} center={[24.886, -70.268]}
           onGoogleApiLoaded={this.onGoogleApiLoaded}
           yesIWantToUseGoogleMapApiInternals={true}
-          >
-          {
-            (() => {
-              if(_.isEmpty(pInfos)) {
-                  return null;
-              }
-              return (
-                _.map(pInfos, (pinfo, index) => (
-                  <MyGreatPlace
-                    key={index}
-                    lat={pinfo.latitude}
-                    lng={pinfo.longitude}
-                    text={index+1}
-                  />
-                ))
-              );
-            })()
-          }
-          {this.drawSvg(ref)}
-        </GoogleMap>
+        />
       </div>
     );
   }

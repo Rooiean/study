@@ -76,7 +76,7 @@ export default class Transport extends Component {
           <div className="sm-td">{ transport.id }</div>
           <div>{ transport.type }</div>
           <div className="lg-td">{ transport.name }</div>
-          <div>$ { transport.cost }</div>
+          <div>{ transport.cost }</div>
           <div className="sm-td"></div>
           <div className="md-td">{ this.cycleNumberToWeek(transport.cycle) }</div>
           <div className="lg-td">{ this.findPortInfo(transport.sourcePort) }</div>
@@ -95,7 +95,9 @@ export default class Transport extends Component {
             onHide={this.handleHideDetailModal}
             allPorts={allPorts}
             sourcePort={ this.findPortInfo(transport.sourcePort) }
+            ssPort={transport.sourcePort}
             destinationPort={ this.findPortInfo(transport.destinationPort) }
+            ddPort={transport.destinationPort}
           /> : null }
         { (showDeleteModal) ?
           <DeleteModal

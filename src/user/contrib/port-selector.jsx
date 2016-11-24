@@ -54,7 +54,6 @@ export default class PortSelector extends Component {
       return { id: _data.id, port: _data.name + ' / ' + _data.locationCode, country: _data.countryCode }
     }).concat();
 
-    console.log(ports);
     this.setState({
       options: ports,
       options2: countries,
@@ -64,7 +63,6 @@ export default class PortSelector extends Component {
   setCountry(e) {
     const { value, portState, port } = this.state;
     this.setState({ value: e, port: '' });
-    console.log('Support level selected:', e);
     if (!_.isEmpty(e)) {
       store.dispatch(search.portSearch(portState, e.country)).then(() =>
         this.getOptions()
@@ -79,7 +77,6 @@ export default class PortSelector extends Component {
   setPort(e) {
     const { port, value, id } = this.state;
     this.setState({ port: e, value: e.country, id:e.id });
-    console.log('Support level selected:', e.port, e.id);
 	}
 
   selectedPort() {

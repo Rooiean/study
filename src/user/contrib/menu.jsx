@@ -12,7 +12,7 @@ export default class Menu extends Component {
             <Link to="/">Tradlinx Navigator</Link>
           </Navbar.Brand>
         </Navbar.Header>
-        <Navbar.Collapse>
+        {/*<Navbar.Collapse>
           <Nav>
             <LinkContainer to="/home">
               <NavItem>Route</NavItem>
@@ -21,7 +21,7 @@ export default class Menu extends Component {
               <NavItem>Air</NavItem>
             </LinkContainer>
           </Nav>
-        </Navbar.Collapse>
+        </Navbar.Collapse>*/}
       </Navbar>
     );
   }

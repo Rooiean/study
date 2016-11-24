@@ -17,6 +17,8 @@ html, body {
   .header .btn-success {
     float: right;
     min-width: 200px; }
+  .header .rc-slider {
+    margin-top: 10px; }
 
 .result-container {
   width: 100%; }
@@ -53,7 +55,10 @@ html, body {
       .result-container .search-result span.td.depth, .result-container .search-result span.td.term {
         width: 8%; }
       .result-container .search-result span.td.cost {
-        width: 14%; }
+        width: 14%;
+        padding-right: 2%; }
+        .result-container .search-result span.td.cost .progress {
+          margin-bottom: 0; }
       .result-container .search-result span.td.map-btn {
         width: 10%;
         text-align: center; }

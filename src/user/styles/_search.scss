@@ -13,6 +13,10 @@
     float: right;
     min-width: 200px;
   }
+
+  .rc-slider{
+    margin-top:10px;
+  }
 }
 
 
@@ -67,6 +71,10 @@
 
       &.cost {
         width:14%;
+        padding-right: 2%;
+        .progress {
+          margin-bottom: 0;
+        }
       }
       &.map-btn {
         width:10%;
