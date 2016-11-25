@@ -17,6 +17,8 @@ export default class DetailModal extends Component {
     this.cycleNumberToWeek = this.cycleNumberToWeek.bind(this);
     this.handleSaveTransport = this.handleSaveTransport.bind(this);
     this.checkboxChanged = this.checkboxChanged.bind(this);
+    this.handleAddTransport = this.handleAddTransport.bind(this);
+    this.handleDeleteTransport = this.handleDeleteTransport.bind(this);
   }
 
   componentDidMount() {
@@ -24,9 +26,10 @@ export default class DetailModal extends Component {
   }
 
   cycleNumberToWeek() {
-    const { cycle } = this.props.transport || '0000000';
-    this.setState({allWeekCheck: cycle});
-    const cycleNumbers = _.split(cycle, '');
+    const _cycle = !_.isEmpty(this.props.transport) ? this.props.transport.cycle : '0000000';
+
+    this.setState({allWeekCheck: _cycle});
+    const cycleNumbers = _.split(_cycle, '');
     const week = ['일', '월', '화', '수', '목', '금', '토'];
     const weekEn = ['sun', 'mon', 'tue', 'wen', 'thr', 'fri', 'sat'];
     let numberWeeks = [];
@@ -69,7 +72,6 @@ export default class DetailModal extends Component {
   }
 
   handleAddTransport() {
-    const id = transport.id;
     const name = this.refs.name.getValue();
     const sourcePort = this.refs.sPort.selectedPort();
     const destinationPort = this.refs.dPort.selectedPort();
@@ -80,11 +82,16 @@ export default class DetailModal extends Component {
     const requiredTime = this.refs.rTime.getValue();
     const status = this.refs.status.getValue();
 
-    store.dispatch(trans.postTransport(id, name, sourcePort, destinationPort, type, scheduleList, cycle, cost, requiredTime, status)).then(
+    store.dispatch(trans.postTransport(name, sourcePort, destinationPort, type, scheduleList, cycle, cost, requiredTime, status)).then(
       () => {
         store.dispatch(search.allTransports());
       }
     );
+  }
+
+  handleDeleteTransport() {
+    const { id } = this.props.transport;
+    store.dispatch(trans.delTransport(id));
   }
 
   checkboxChanged() {
@@ -134,16 +141,16 @@ export default class DetailModal extends Component {
           <label>Name</label>
           {
             !_.isEmpty(transport) ?
-            <Input type="text" defaultValue={ transport.name } ref="name"/>
+            <Input type="text" defaultValue={ transport.name } ref="name" />
             :
-            <Input type="text" placeholder="이름을 입력해주세요." ref="name"/>
+            <Input type="text" placeholder="이름을 입력해주세요." ref="name" />
           }
           <label>Cost($)</label>
           {
             !_.isEmpty(transport) ?
-              <Input type="text" defaultValue={ transport.cost } ref="cost"/>
+              <Input type="text" defaultValue={ transport.cost } ref="cost" />
               :
-              <Input type="text" placeholder="가격을 입력해주세요." ref="cost"/>
+              <Input type="text" placeholder="가격을 입력해주세요." ref="cost" />
           }
           <label>Distance</label>
           <Input type="text" defaultValue="Distance" ref="distance" />
@@ -203,7 +210,7 @@ export default class DetailModal extends Component {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button bsStyle="warning" className="fl">삭제하기</Button>
+          <Button bsStyle="warning" className="fl" onClick={this.handleDeleteTransport}>삭제하기</Button>
           <Button onClick={this.props.onHide} className="fr">취소</Button>
           {
             (() => {

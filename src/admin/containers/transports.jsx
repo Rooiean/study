@@ -3,20 +3,68 @@ import { connect } from 'react-redux';
 
 import React, { Component } from 'react';
 import { search } from 'actions';
+import { Transport, DetailModal } from 'components/transport';
 
-import { Transport } from 'components';
 import { Button, Input } from 'react-bootstrap';
+import ReactPaginate from 'react-paginate';
 
 export class Transports extends Component {
-  render() {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      showAddModal: false,
+      limit: 30,
+      offset: 0,
+      data: [],
+      pageNum: 8,
+    }
+
+    this.handleShowAddModal = this.handleShowAddModal.bind(this);
+    this.handleHideAddModal = this.handleHideAddModal.bind(this);
+    this.setPagination = this.setPagination.bind(this);
+  }
+
+  componentDidMount() {
+    this.setPagination();
+  }
+
+  handleShowAddModal() {
+    this.setState({showAddModal:true});
+  }
+
+  handleHideAddModal() {
+    this.setState({showAddModal:false});
+  }
+
+  setPagination() {
+    const { transports } = this.props.search;
+    this.setState({
+      data: transports,
+      pageNum: Math.ceil(transports.length / this.state.limit),
+    });
+    console.log(transports, this.state.data, this.state.pageNum);
+  }
+
+  handlePageClick() {
+    const { data } = this.state;
+    let selected = data.selected;
+    let offsetNum =  Math.ceil(selected * this.state.limit);
+
+    this.setState({offset: offsetNum}, () => {
+      this.setPagination();
+    });
+  }
+
+  render() {
     const { allPorts, transports } = this.props.search;
+    const { data } = this.state;
 
     return (
       <div className="tables">
         <h2 className="fl">Transports</h2>
         <div className="table-actions fr">
-          <Button className="add" bsStyle="primary">새로운 Transport 추가하기</Button>
+          <Button className="add" bsStyle="primary" onClick={this.handleShowAddModal}>새로운 Transport 추가하기</Button>
         </div>
         <hr className="cb" />
         <div className="th">
@@ -33,11 +81,24 @@ export class Transports extends Component {
           <div className="btns">Actions</div>
         </div>
         {
-          _.map(transports, (transport, index) => {
-            return <Transport key={index} transport={transport} allPorts={allPorts} />
+          _.map(data, (_data, index) => {
+            return <Transport key={index} transport={_data} allPorts={allPorts} />
           })
         }
-
+        <DetailModal showModal={this.state.showAddModal} onHide={this.handleHideAddModal} />
+        <ReactPaginate previousLabel={"prev"}
+                       nextLabel={"next"}
+                       breakLabel={<a href="">...</a>}
+                       breakClassName={"break-me"}
+                       pageNum={this.state.pageNum}
+                       marginPagesDisplayed={2}
+                       pageRangeDisplayed={5}
+                       clickCallback={this.handlePageClick}
+                       containerClassName={"pagination"}
+                       subContainerClassName={"pages pagination"}
+                       activeClassName={"active"}
+                       perPage={8}
+                     />
       </div>
     );
   }
