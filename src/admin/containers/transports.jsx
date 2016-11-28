@@ -23,10 +23,11 @@ export class Transports extends Component {
     this.handleShowAddModal = this.handleShowAddModal.bind(this);
     this.handleHideAddModal = this.handleHideAddModal.bind(this);
     this.setPagination = this.setPagination.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   componentDidMount() {
-    this.setPagination();
+    this.props.dispatch(search.allTransports()).then(()=>{this.setPagination();});
   }
 
   handleShowAddModal() {
