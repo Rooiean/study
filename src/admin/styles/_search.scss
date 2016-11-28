@@ -17,14 +17,6 @@
   .rc-slider{
     margin-top:10px;
   }
-
-  .more-options {
-    .form-group {
-      display: inline-block;
-      vertical-align: top;
-      margin-right:20px;
-    }
-  }
 }
 
 
@@ -94,4 +86,8 @@
       padding:10px;
     }
   }
+}
+
+.map {
+  height: 300px;
 }

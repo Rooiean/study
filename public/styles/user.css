@@ -19,6 +19,10 @@ html, body {
     min-width: 200px; }
   .header .rc-slider {
     margin-top: 10px; }
+  .header .more-options .form-group {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px; }
 
 .result-container {
   width: 100%; }

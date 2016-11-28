@@ -71,6 +71,8 @@ export default class Map extends Component {
           googleApiLoaded: true
       });
 
+      console.log(this.state.pInfos);
+
       const bounds = new maps.LatLngBounds();
 
       function extendBounds(lat, lng) {

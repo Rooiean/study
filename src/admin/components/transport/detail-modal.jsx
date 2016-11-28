@@ -47,7 +47,6 @@ export default class DetailModal extends Component {
     }
 
     this.setState({ numberWeekState: numberWeeks })
-    console.log(numberWeeks);
   }
 
   handleSaveTransport() {
@@ -64,11 +63,7 @@ export default class DetailModal extends Component {
     const requiredTime = this.refs.rTime.getValue();
     const status = this.refs.status.getValue();
 
-    store.dispatch(trans.putTransport(id, name, sourcePort, destinationPort, type, scheduleList, cycle, cost, requiredTime, status)).then(
-      () => {
-        store.dispatch(search.allTransports());
-      }
-    );
+    store.dispatch(trans.putTransport(id, name, sourcePort, destinationPort, type, scheduleList, cycle, cost, requiredTime, status));
   }
 
   handleAddTransport() {
@@ -82,11 +77,7 @@ export default class DetailModal extends Component {
     const requiredTime = this.refs.rTime.getValue();
     const status = this.refs.status.getValue();
 
-    store.dispatch(trans.postTransport(name, sourcePort, destinationPort, type, scheduleList, cycle, cost, requiredTime, status)).then(
-      () => {
-        store.dispatch(search.allTransports());
-      }
-    );
+    store.dispatch(trans.postTransport(name, sourcePort, destinationPort, type, scheduleList, cycle, cost, requiredTime, status));
   }
 
   handleDeleteTransport() {

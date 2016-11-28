@@ -1,42 +1,24 @@
 .menu {
-  a {
-      color:#ffffff;
-      text-decoration: none;
+  background:#1E1E29;
+  margin:0;
+  border-radius: 0;
+  border:0;
+  .navbar-brand {
+    color:#ffffff;
+
+    &:hover {
+      color:#C9C7EF;
+    }
   }
 
-  h3 {
-    margin:0;
-    padding:20px 10px;
-    background: rgba(0,0,0,.22);
-    i {
-      width: 30px;
-      display: inline-block;
-      text-align: center;
-    }
-    span {
-      display: inline-block;
-    }
-  }
-  ul {
-    margin:0;
-    padding:0;
+  .navbar-nav {
     li {
-      display: block;
-      a {
-        font-size: 0.9em;
-        display: block;
-        padding:15px 10px;
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-
-        i {
-          width: 25px;
-          display: inline-block;
-          text-align: center;
-        }
-        span {
-          display: inline-block;
-        }
+      font-size: 13px;
+      i {
+        margin-right:5px;
       }
     }
   }
+
+
 }

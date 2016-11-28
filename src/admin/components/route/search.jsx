@@ -1,13 +1,10 @@
 import _ from 'lodash';
-import store from 'store';
 import React, { Component } from 'react';
-
-import { PortSelector, InputFieldOverlay } from '../contrib';
-import { search } from 'actions';
-
 import { Panel, Input, Select, Button, Row, Col } from 'react-bootstrap';
 import Slider from 'rc-slider';
-
+import SearchPortSelector from './search-port-selector';
+import { search } from 'actions';
+import store from 'store';
 
 export default class Search extends Component {
   constructor(props) {
@@ -19,13 +16,11 @@ export default class Search extends Component {
   handleClickSearch() {
     const origin = this.refs.origin.selectedPort();
     const destination = this.refs.destination.selectedPort();
-    const oriDay = this.refs.oriDay.returnValue();
-    const desDay = this.refs.desDay.returnValue();
-    const cost = this.refs.cost.getChecked();
-    const distance = this.refs.distance.getChecked();
-    const term = this.refs.term.getChecked();
+    const depth = this.refs.depth.getValue();
+    const cost = this.refs.cost.getValue() * 3500000;
+    const term = this.refs.term.getValue();
 
-    console.log(origin, destination, oriDay, desDay, cost, distance, term);
+    store.dispatch(search.routeSearch(origin, destination, depth, cost, term));
   }
 
   render() {
@@ -38,7 +33,7 @@ export default class Search extends Component {
             <Col md={6}>
               <div>
                 <h3>출발지</h3>
-                <PortSelector
+                <SearchPortSelector
                   label={'출발지 유형'}
                   ref="origin"
                 />
@@ -47,7 +42,7 @@ export default class Search extends Component {
             <Col md={6}>
               <div>
                 <h3>도착지</h3>
-                <PortSelector
+                <SearchPortSelector
                   label={'도착지 유형'}
                   ref="destination"
                 />
@@ -56,29 +51,24 @@ export default class Search extends Component {
           </Row>
         </Panel>
         <Panel className="options">
-          <h3>추가 선택사항</h3>
           <Row>
             <Col md={4}>
               <label>
-                출발날짜
+                최대 환승 수
               </label>
-              <InputFieldOverlay ref="oriDay" />
+              <Input type="number" ref="depth"/>
             </Col>
             <Col md={4}>
               <label>
-                도착날짜
+                최대 비용
               </label>
-              <InputFieldOverlay ref="desDay" />
+              <Slider allowCross={false} ref="cost"/>
             </Col>
             <Col md={4}>
               <label>
-                선호사항
+                최대 소요 시간
               </label>
-              <div className="more-options">
-                <Input ref="cost" type="checkbox" label="가격" defaultCheck="false" />
-                <Input ref="distance" type="checkbox" label="거리" defaultCheck="false" />
-                <Input ref="term" type="checkbox" label="시간" defaultCheck="false" />
-              </div>
+              <Slider allowCross={false} ref="term"/>
             </Col>
           </Row>
         </Panel>
