@@ -6,7 +6,8 @@ html, body {
   background: #f2f2f2; }
 
 .page-wrapper {
-  margin-top: 50px; }
+  margin-top: 50px;
+  padding-bottom: 50px; }
 
 .fl {
   float: left;
@@ -44,11 +45,12 @@ html, body {
       color: #F44336;
       font-style: normal; }
   .result-container .search-result {
-    width: 100%; }
+    width: 100%;
+    background: #ffffff; }
     .result-container .search-result .search-th {
       font-size: 16px;
       padding: 10px;
-      background: #f2f2f2;
+      background: #fafafa;
       font-weight: bold; }
     .result-container .search-result ul {
       list-style-type: none;
