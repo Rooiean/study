@@ -71,14 +71,13 @@ export default class Map extends Component {
           googleApiLoaded: true
       });
 
-      console.log(this.state.pInfos);
-
       const bounds = new maps.LatLngBounds();
 
       function extendBounds(lat, lng) {
           const latLng = new maps.LatLng(lat, lng);
           bounds.extend(latLng);
       }
+
       function extendCoordsBounds(pInfos) {
         var infowindow = new google.maps.InfoWindow();
 
@@ -113,22 +112,71 @@ export default class Map extends Component {
 
       extendCoordsBounds(this.state.pInfos);
 
+      function makePolyline(infosArray) {
+        console.log(infosArray);
+        for (let j = 0; j < infosArray.length; j++) {
+
+          let newInfos = [];
+          newInfos.push(_.nth(infosArray, 0), _.nth(infosArray, 1));
+
+          let newInfofirst = _.nth(newInfos, 0);
+          console.log(newInfos, newInfofirst);
+
+          if(_.isEqual(newInfofirst.type, 'AIRPORT')) {
+            let latlngForFlightPoly = _.map(newInfos, info => {
+              return { lat: info.latitude, lng: info.longitude };
+            });
+            var flightPath = new google.maps.Polyline({
+               path: latlngForFlightPoly,
+               geodesic: true,
+               strokeColor: '#FF0000',
+               strokeOpacity: 1.0,
+               strokeWeight: 2
+             });
+             flightPath.setMap(map);
+          } else {
+            let latlngForSeaPoly = _.map(newInfos, info => {
+              return { lat: info.latitude, lng: info.longitude };
+            });
+            var vesselPath = new google.maps.Polyline({
+               path: latlngForSeaPoly,
+               geodesic: false,
+               strokeColor: '#FF0000',
+               strokeOpacity: 1.0,
+               strokeWeight: 2
+             });
+
+            vesselPath.setMap(map);
+          }
+
+          _.drop(infosArray);
+
+        }
+      }
+
+
+      function SplitRoute(pnt1, pnt2) {
+
+        var midpoint = geo.math.midpoint(pnt1, pnt2);
+        var midpoint = new google.maps.LatLng(midpoint.lat(), midpoint.lng());
+        var tmppoints = [];
+        var insertpoint = getlowestbetween(getindexofpoint(pnt1), getindexofpoint(pnt2));
+        for (var i = 0; i < routePoints.length; ++i) {
+            tmppoints.push(routePoints[i]);
+            if (i == insertpoint) {
+                tmppoints.push(midpoint);
+            }
+        }
+        routePoints = tmppoints;
+        redisply();
+        messagediv.innerHTML = "Split Complete";
+
+      }
+
+
+      makePolyline(this.state.pInfos);
       map.fitBounds(bounds);
-
-
-      let latlngForPoly = _.map(this.state.pInfos, info => {
-        return { lat: info.latitude, lng: info.longitude };
-      });
-
-      var flightPath = new google.maps.Polyline({
-         path: latlngForPoly,
-         geodesic: false,
-         strokeColor: '#FF0000',
-         strokeOpacity: 1.0,
-         strokeWeight: 2
-       });
-
-       flightPath.setMap(map);
+      var elevator = new google.maps.ElevationService;
   }
 
 

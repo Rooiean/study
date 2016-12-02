@@ -5,7 +5,7 @@ import { search } from 'actions';
 import store from 'store';
 import Select from 'react-select';
 
-export default class PortSelector extends Component {
+export default class SearchPortSelector extends Component {
   constructor(props) {
     super(props);
 
@@ -77,6 +77,7 @@ export default class PortSelector extends Component {
   setPort(e) {
     const { port, value, id } = this.state;
     this.setState({ port: e, value: e.country, id:e.id });
+    console.log(e);
 	}
 
   selectedPort() {
@@ -104,7 +105,7 @@ export default class PortSelector extends Component {
           labelKey="country"
           options={options2}
           placeholder={placeholder}
-          onChange={e =>this.setCountry(e)}
+          onChange={(e) => this.setCountry(e)}
         	value={this.state.value}
         />
 
@@ -125,7 +126,7 @@ export default class PortSelector extends Component {
           labelKey="port"
           options={options}
           placeholder={placeholder2}
-          onChange={e=> this.setPort(e)}
+          onChange={(e)=> this.setPort(e)}
         	value={this.state.port}
         />
       </div>
