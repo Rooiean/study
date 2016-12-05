@@ -84,7 +84,7 @@ export default class PortSelector extends Component {
   }
 
   render() {
-    const { portState, options, options2, vlaue, port } = this.state;
+    const { portState, options, options2, value, port } = this.state;
     const { label } = this.props;
     const placeholder = '국가를 선택하세요.';
     const placeholder2 = '포트를 선택하세요.';

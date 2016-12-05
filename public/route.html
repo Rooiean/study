@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test</title>
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2EF2Y0VHxuOKI7H9xnhoEsrUDAGZ3Ceg&libraries=geometry,places,visualization"></script>
+  <script src="../public/dist/split.js"></script>
+  <script src="../public/vendor/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<div id="map_canvas" style="width: 100%; height: 600px;"></div>
+<div align="center" id="messagediv" class="mapdivstyle">Loading ...</div>
+<form method="get" action="javascript:void(0);">
+  <input type="button" id="btn_clear" value="Clear Map" onclick="ClearMap();">
+  <input type="button" id="btn_split" value="Make a Split" onclick="MakeSplit();" disabled="disabled">
+</form>
+<script>
+ initialize()
+</script>
+</body>
+</html>

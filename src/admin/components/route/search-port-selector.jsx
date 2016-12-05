@@ -13,7 +13,7 @@ export default class SearchPortSelector extends Component {
       portState: 'ALL',
       options: [],
       options2: [],
-      value: '',
+      countryCode: '',
       port: '',
     };
 
@@ -29,12 +29,12 @@ export default class SearchPortSelector extends Component {
 
   handleSelectPortType() {
     const portType = this.refs.portType.getValue();
-    const { portState, port, value } = this.state;
+    const { portState, port, countryCode } = this.state;
 
     this.setState({
       portState: portType,
       port: '',
-      value: '',
+      countryCode: '',
       id: '',
      });
 
@@ -47,8 +47,8 @@ export default class SearchPortSelector extends Component {
     const { data } = store.getState().search;
 
     const countries = _.uniqBy(_.map(data, _data => {
-      return { value: _data.countryCode, country: _data.countryCode }
-    }).concat(), 'value');
+      return { countryCode: _data.countryCode, country: _data.countryCode }
+    }).concat(), 'countryCode');
 
     const ports = _.map(data, _data => {
       return { id: _data.id, port: _data.name + ' / ' + _data.locationCode, country: _data.countryCode }
@@ -61,8 +61,8 @@ export default class SearchPortSelector extends Component {
   }
 
   setCountry(e) {
-    const { value, portState, port } = this.state;
-    this.setState({ value: e, port: '' });
+    const { countryCode, portState, port } = this.state;
+    this.setState({ countryCode: e, port: '' });
     if (!_.isEmpty(e)) {
       store.dispatch(search.portSearch(portState, e.country)).then(() =>
         this.getOptions()
@@ -75,8 +75,8 @@ export default class SearchPortSelector extends Component {
 	}
 
   setPort(e) {
-    const { port, value, id } = this.state;
-    this.setState({ port: e, value: e.country, id:e.id });
+    const { port, countryCode, id } = this.state;
+    this.setState({ port: e, countryCode: e.country, id:e.id });
     console.log(e);
 	}
 
@@ -85,7 +85,7 @@ export default class SearchPortSelector extends Component {
   }
 
   render() {
-    const { portState, options, options2, vlaue, port } = this.state;
+    const { portState, options, options2, countryCode, port } = this.state;
     const { label } = this.props;
     const placeholder = '국가를 선택하세요.';
     const placeholder2 = '포트를 선택하세요.';
@@ -101,12 +101,12 @@ export default class SearchPortSelector extends Component {
         <label>국가</label>
         <Select
           name="form-field-name"
-          valueKey="value"
+          valueKey="countryCode"
           labelKey="country"
           options={options2}
           placeholder={placeholder}
-          onChange={(e) => this.setCountry(e)}
-        	value={this.state.value}
+          onChange={e => this.setCountry(e)}
+        	value={this.state.countryCode}
         />
 
         {
@@ -126,7 +126,7 @@ export default class SearchPortSelector extends Component {
           labelKey="port"
           options={options}
           placeholder={placeholder2}
-          onChange={(e)=> this.setPort(e)}
+          onChange={e => this.setPort(e)}
         	value={this.state.port}
         />
       </div>

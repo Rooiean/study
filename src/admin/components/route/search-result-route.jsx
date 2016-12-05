@@ -18,6 +18,17 @@ export default class SearchResultRoute extends Component {
     this.costProgress = this.costProgress.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    const { showMap } = this.state;
+
+    if(!_.isEqual(this.props.search.routes, nextProps.search.routes)) {
+        this.setState({
+          showMap : false,
+          showMapText: '지도보기',
+       });
+    }
+  }
 
   findPortInfo(queryText) {
     const { allPorts } = this.props.search;
@@ -46,7 +57,7 @@ export default class SearchResultRoute extends Component {
     let progStyle;
     if(now>50) {
       progStyle = 'danger';
-    } 
+    }
     return <ProgressBar bsStyle={progStyle} now={now} />
   }
 
