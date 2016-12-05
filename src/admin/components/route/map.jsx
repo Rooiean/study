@@ -203,8 +203,29 @@ export default class Map extends Component {
         routePath.setMap(map);
       }
 
+      var number_of_poly = 0;
+
       function findClosestMidpoint(midpoint) {
-        return midpoint;
+
+        var radius = 50;
+        var curPos = midpoint
+        var width = radius * 2 * Math.sqrt(3)/2 ;
+
+         for(var j = 0;j < row_count; j++){
+
+            for(var i = 0;i < count; i++){
+                displayLocationElevation(map,curPos,radius);
+                curPos = google.maps.geometry.spherical.computeOffset(curPos, width,90);
+            }
+            curPos = google.maps.geometry.spherical.computeOffset(curPos, width,180);
+            curPos = google.maps.geometry.spherical.computeOffset(curPos, width*1.5,270);
+            for(var i = 0;i < count; i++){
+                displayLocationElevation(map,curPos,radius);
+                curPos = google.maps.geometry.spherical.computeOffset(curPos, width,270);
+            }
+            curPos = google.maps.geometry.spherical.computeOffset(curPos, width,180);
+            curPos = google.maps.geometry.spherical.computeOffset(curPos, width*1.5,90)
+         }
       }
 
       function getlowestbetween(i1,i2) {
