@@ -4,7 +4,7 @@ import GoogleMap, { fitBounds } from 'google-map-react';
 
 const DEFAULT_REF = 'map';
 
-export default class Map extends Component {
+export default class MapThird extends Component {
   constructor(props) {
     super(props);
 
@@ -88,14 +88,10 @@ export default class Map extends Component {
           googleApiLoaded: true
       });
 
-
-      var routePath;
-      var routePoints=new Array(0);
-
-      const bounds = new maps.LatLngBounds();
+      const bounds = new google.maps.LatLngBounds();
 
       function extendBounds(lat, lng) {
-          const latLng = new maps.LatLng(lat, lng);
+          const latLng = new google.maps.LatLng(lat, lng);
           bounds.extend(latLng);
       }
 
@@ -133,6 +129,8 @@ export default class Map extends Component {
 
       extendCoordsBounds(this.state.pInfos);
 
+      var points = new Array();
+
       function makePolyline(infosArray) {
         console.log(infosArray);
         for (let j = 0; j < infosArray.length; j++) {
@@ -158,8 +156,16 @@ export default class Map extends Component {
             let latlngForSeaPoly = _.map(newInfos, info => {
               return { lat: info.latitude, lng: info.longitude };
             });
-            SplitRoute(latlngForSeaPoly[0], latlngForSeaPoly[1]);
-            routePoints.push(latlngForSeaPoly[0], latlngForSeaPoly[1]);
+            points.push(latlngForSeaPoly[0], latlngForSeaPoly[1]);
+            getNextPoint();
+            var polyline = new google.maps.Polyline({
+               path: points,
+               geodesic: false,
+               strokeColor: '#FF0000',
+               strokeOpacity: 1.0,
+               strokeWeight: 2
+             });
+             polyline.setMap(map);
           }
 
           _.drop(infosArray);
@@ -167,149 +173,109 @@ export default class Map extends Component {
         }
       }
 
-      function SplitRoute(pnt1, pnt2) {
-        var midpoint = findmidpoint(pnt1,pnt2,0.5);
-      	var midpoint = new google.maps.LatLng(midpoint.lat(),midpoint.lng());
-
-        var elevator = new google.maps.ElevationService;
-
-        elevator.getElevationForLocations({
-          'locations': [midpoint]
-        }, function(results, status) {
-          if (status === google.maps.ElevationStatus.OK) {
-            if(results[0].elevation > 0) {
-              findClosestMidpoint(midpoint, 24, 9);
-            }
-            console.log(results[0].elevation, status);
-          } else {
-            console.log(status);
-          }
-        });
-
-        var tmppoints=[];
-      	var insertpoint=getlowestbetween(getindexofpoint(pnt1),getindexofpoint(pnt2));
-
-      	for(var i=0;i<routePoints.length;++i)
-      	{
-      		tmppoints.push(routePoints[i]);
-      		if (i==insertpoint)
-      		{
-      			tmppoints.push(midpoint);
-      		}
-      	}
-
-      	routePoints = tmppoints;
-      	routePath = getRoutePath();
-        routePath.setMap(map);
+      Number.prototype.toRad = function() {
+        return this * Math.PI / 180;
       }
 
-
-      debugger;
-
-      function findClosestMidpoint(midpoint) {
-        console.log(midpoint);
-        var radius = 200000;//하나가 200km
-        var curPos = midpoint;
-
-        var cityCircle = new google.maps.Circle({
-           strokeColor: '#FF0000',
-           strokeOpacity: 0.8,
-           strokeWeight: 2,
-           fillColor: '#FF0000',
-           fillOpacity: 0.35,
-           map: map,
-           center: midpoint,
-           radius: radius
-       });
-
-       routePath.setMap(map);
-
-      }
-
-      debugger;
-
-      function getlowestbetween(i1,i2) {
-          if(i1 > i2) {
-              return (i2);
-          } else {
-              return (i1);
-          }
-      }
-
-      function getindexofpoint(point) {
-        var index;
-        for (var i = 0; i < routePoints.length; ++i) {
-            if ((routePoints[i].lat == point.lat) && (routePoints[i].lng == point.lng)) {
-                index = i;
-            }
-        }
-        return (index);
-      }
-
-      function getRoutePath() {
-      	var routePath = new google.maps.Polyline({
-      		path: routePoints,
-          geodesic: false,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-      	});
-      	return routePath;
-      }
-
-      Number.prototype.toDegrees = function() {
+      Number.prototype.toDeg = function() {
         return this * 180 / Math.PI;
-      };
+      }
 
-     if (!('toRadians' in Number.prototype)) {
-       Number.prototype.toRadians = function() {
-         return this * Math.PI / 180;
-       };
+      function moveTowards(points, point, distance) {
+        var lat1 = points.lat().toRad();
+        var lon1 = points.lng().toRad();
+        var lat2 = point.lat().toRad();
+        var lon2 = point.lng().toRad();
+        var dLon = (point.lng() - points.lng()).toRad();
+
+        // Find the bearing from this point to the next.
+        var brng = Math.atan2(Math.sin(dLon) * Math.cos(lat2),
+                              Math.cos(lat1) * Math.sin(lat2) -
+                              Math.sin(lat1) * Math.cos(lat2) *
+                              Math.cos(dLon));
+
+        var angDist = distance / 6371000;  // Earth's radius.
+
+        // Calculate the destination point, given the source and bearing.
+        lat2 = Math.asin(Math.sin(lat1) * Math.cos(angDist) +
+                         Math.cos(lat1) * Math.sin(angDist) *
+                         Math.cos(brng));
+
+        lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(angDist) *
+                                 Math.cos(lat1),
+                                 Math.cos(angDist) - Math.sin(lat1) *
+                                 Math.sin(lat2));
+
+        if (isNaN(lat2) || isNaN(lon2)) return null;
+
+        const glatlng = new google.maps.LatLng(lat2.toDeg(), lon2.toDeg());
+
+        return glatlng;
      }
 
-      function findmidpoint(point1, point2, fraction) {
-        var phi1 = point1.lat.toRadians();
-        var phi2 = point2.lat.toRadians();
-        var lmd1 = point1.lng.toRadians();
-        var lmd2 = point2.lng.toRadians();
+     function moveAlongPath(points, distance, index) {
+       console.log(points);
+        index = index || 0;  // Set index to 0 by default.
 
-        var cos_phi1 = Math.cos(phi1);
-        var cos_phi2 = Math.cos(phi2);
+        if (index < points.length) {
+           // There is still at least one point further from this point.
 
-        var angularDistance = getangularDistance(point1, point2);
-        var sin_angularDistance = Math.sin(angularDistance);
+           // Construct a GPolyline to use the getLength() method.
+           var polyline = new google.maps.Polyline({
+             path: [points[index], points[index + 1]]
+           });
 
-        var A = Math.sin((1 - fraction) * angularDistance) / sin_angularDistance;
-        var B = Math.sin(fraction * angularDistance) / sin_angularDistance;
+           // Get the distance from this point to the next point in the polyline.
+           var distanceToNextPoint = google.maps.geometry.spherical.computeDistanceBetween(points[index], points[index + 1]);
 
-        var x = A * cos_phi1 * Math.cos(lmd1) +
-                B * cos_phi2 * Math.cos(lmd2);
+           if (distance <= distanceToNextPoint) {
+              // distanceToNextPoint is within this point and the next.
+              // Return the destination point with moveTowards().
+              return moveTowards(points[index], points[index + 1], distance);
+           }
+           else {
+              // The destination is further from the next point. Subtract
+              // distanceToNextPoint from distance and continue recursively.
+              return moveAlongPath(points,
+                                   distance - distanceToNextPoint,
+                                   index + 1);
+           }
+        }
+        else {
+           // There are no further points. The distance exceeds the length
+           // of the full path. Return null.
+           return null;
+        }
+     }
 
-        var y = A * cos_phi1 * Math.sin(lmd1) +
-                B * cos_phi2 * Math.sin(lmd2);
+     var nextMarkerAt = 0;     // Counter for the marker checkpoints.
+     var nextPoint = null;     // The point where to place the next marker.
 
-        var z = A * Math.sin(phi1) +
-                B * Math.sin(phi2);
+     // Draw the checkpoint markers every 1000 meters.
+     function getNextPoint() {
+       while (true) {
+          // Call moveAlongPath which will return the GLatLng with the next
+          // marker on the path.
+          nextPoint = moveAlongPath(points, nextMarkerAt);
 
-        return new google.maps.LatLng(
-            Math.atan2(z, Math.sqrt(Math.pow(x, 2) +
-                                    Math.pow(y, 2))).toDegrees(),
-            Math.atan2(y, x).toDegrees());
-      };
+          if (nextPoint) {
+             // Draw the marker on the map.
+             var marker = new google.maps.Marker({
+               position: nextPoint,
+               map: map
+             });
 
-      function getangularDistance(point1, point2) {
-       var phi1 = point1.lat.toRadians();
-       var phi2 = point2.lat.toRadians();
+             // Add +1000 meters for the next checkpoint.
+             nextMarkerAt += 1000;
+          }
+          else {
+             // moveAlongPath returned null, so there are no more check points.
+             break;
+          }
+       }
+     }
 
-       var d_phi = (point2.lat - point1.lat).toRadians();
-       var d_lmd = (point2.lng - point1.lng).toRadians();
 
-       var A = Math.pow(Math.sin(d_phi / 2), 2) +
-               Math.cos(phi1) * Math.cos(phi2) *
-                 Math.pow(Math.sin(d_lmd / 2), 2);
-
-       return 2 * Math.atan2(Math.sqrt(A), Math.sqrt(1 - A));
-     };
 
       makePolyline(this.state.pInfos);
       map.fitBounds(bounds);
