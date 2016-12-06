@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import GoogleMap, { fitBounds } from 'google-map-react';
 
