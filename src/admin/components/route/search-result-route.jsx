@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Button, ProgressBar } from 'react-bootstrap';
-import MapSecond from './map-second';
+import Map from './map';
 
 export default class SearchResultRoute extends Component {
 
@@ -80,7 +80,7 @@ export default class SearchResultRoute extends Component {
             <Button bsStyle="info" onClick={this.viewResultMap}>{ showMapText }</Button>
           </span>
         </div>
-        { (showMap) ? <MapSecond route={route} allPorts={allPorts} transports={transports}  /> : null }
+        { (showMap) ? <Map route={route} allPorts={allPorts} transports={transports}  /> : null }
       </li>
     );
   }

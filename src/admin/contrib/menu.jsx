@@ -32,6 +32,18 @@ export default class Menu extends Component {
                 <span>Transports</span>
               </NavItem>
             </LinkContainer>
+            <LinkContainer to="/admin/cost">
+              <NavItem>
+                <i className="fa fa-calculator" />
+                <span>Cost Editor</span>
+              </NavItem>
+            </LinkContainer>
+            <LinkContainer to="/admin/scrapper">
+              <NavItem>
+                <i className="fa fa-area-chart" />
+                <span>Scrapper</span>
+              </NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

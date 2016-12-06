@@ -1,13 +1,17 @@
 html, body {
-  height: 100%;
-  width: 100%;
   padding: 0;
   margin: 0;
-  background: #f2f2f2; }
+  background: #f2f2f2;
+  height: 100%; }
+  html #app, body #app {
+    height: 100%; }
+    html #app > div, body #app > div {
+      height: 100%; }
+      html #app > div .iframe-container, body #app > div .iframe-container {
+        height: 100%; }
 
 .page-wrapper {
-  margin-top: 50px;
-  padding-bottom: 50px; }
+  padding-top: 50px; }
 
 .fl {
   float: left;
@@ -19,6 +23,11 @@ html, body {
 
 .cb {
   clear: both; }
+
+iframe {
+  width: 100%;
+  border: 0;
+  height: inherit; }
 
 .header {
   background: #272634;
@@ -82,7 +91,14 @@ html, body {
 
 .leaflet-container {
   height: 500px;
-  width: 100%; }
+  width: 100%;
+  overflow: hidden; }
+
+.cost-box {
+  margin: 100px auto;
+  float: none; }
+  .cost-box .well {
+    background: #ffffff; }
 
 .menu {
   background: #1E1E29;

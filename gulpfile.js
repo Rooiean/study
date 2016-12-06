@@ -97,5 +97,6 @@ gulp.task('watch', function () {
     gulp.watch(['src/admin/styles/**/*.sass', 'src/admin/styles/**/*.scss'], ['admin-style']);
 });
 
-gulp.task('default', ['userstyle', 'adminstyle', 'webpack:user', 'webpack:admin']);
+gulp.task('default', ['adminstyle', 'webpack:admin']);
+//gulp.task('default', ['userstyle', 'adminstyle', 'webpack:user', 'webpack:admin']);
 gulp.task('build', ['concat', 'user-style', 'admin-style', 'webpack:build']);

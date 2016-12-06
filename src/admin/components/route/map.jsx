@@ -170,7 +170,6 @@ export default class Map extends Component {
       function SplitRoute(pnt1, pnt2) {
         var midpoint = findmidpoint(pnt1,pnt2,0.5);
       	var midpoint = new google.maps.LatLng(midpoint.lat(),midpoint.lng());
-        console.log(midpoint);
 
         var elevator = new google.maps.ElevationService;
 
@@ -179,7 +178,7 @@ export default class Map extends Component {
         }, function(results, status) {
           if (status === google.maps.ElevationStatus.OK) {
             if(results[0].elevation > 0) {
-              var midpoint = findClosestMidpoint(midpoint);
+              findClosestMidpoint(midpoint, 24, 9);
             }
             console.log(results[0].elevation, status);
           } else {
@@ -204,30 +203,31 @@ export default class Map extends Component {
         routePath.setMap(map);
       }
 
-      var number_of_poly = 0;
+
+      debugger;
 
       function findClosestMidpoint(midpoint) {
+        console.log(midpoint);
+        var radius = 200000;//하나가 200km
+        var curPos = midpoint;
+        var width = radius * 2 * Math.sqrt(3)/2;
 
-        var radius = 50;
-        var curPos = midpoint
-        var width = radius * 2 * Math.sqrt(3)/2 ;
+        var cityCircle = new google.maps.Circle({
+           strokeColor: '#FF0000',
+           strokeOpacity: 0.8,
+           strokeWeight: 2,
+           fillColor: '#FF0000',
+           fillOpacity: 0.35,
+           map: map,
+           center: citymap[city].center,
+           radius: radius
+       });
 
-         for(var j = 0;j < row_count; j++){
+       routePath.setMap(map);
 
-            for(var i = 0;i < count; i++){
-                displayLocationElevation(map,curPos,radius);
-                curPos = google.maps.geometry.spherical.computeOffset(curPos, width,90);
-            }
-            curPos = google.maps.geometry.spherical.computeOffset(curPos, width,180);
-            curPos = google.maps.geometry.spherical.computeOffset(curPos, width*1.5,270);
-            for(var i = 0;i < count; i++){
-                displayLocationElevation(map,curPos,radius);
-                curPos = google.maps.geometry.spherical.computeOffset(curPos, width,270);
-            }
-            curPos = google.maps.geometry.spherical.computeOffset(curPos, width,180);
-            curPos = google.maps.geometry.spherical.computeOffset(curPos, width*1.5,90)
-         }
       }
+
+      debugger;
 
       function getlowestbetween(i1,i2) {
           if(i1 > i2) {
@@ -314,6 +314,7 @@ export default class Map extends Component {
 
       makePolyline(this.state.pInfos);
       map.fitBounds(bounds);
+
 
   }
 
