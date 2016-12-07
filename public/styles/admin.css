@@ -8,7 +8,8 @@ html, body {
     html #app > div, body #app > div {
       height: 100%; }
       html #app > div .iframe-container, body #app > div .iframe-container {
-        height: 100%; }
+        height: 99.8%;
+        padding-top: 50px; }
 
 .page-wrapper {
   padding-top: 50px; }

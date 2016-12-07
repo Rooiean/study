@@ -5,7 +5,7 @@ export class Scrapper extends Component {
   render() {
     return (
       <div className="iframe-container">
-        <iframe src="http://inner.tradlinx.com/managescraper"></iframe>
+        <iframe src="http://inner.tradlinx.com/managescraper2"></iframe>
       </div>
     );
   }
