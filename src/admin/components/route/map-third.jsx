@@ -130,6 +130,8 @@ export default class MapThird extends Component {
       extendCoordsBounds(this.state.pInfos);
 
       var points = new Array();
+      var tempPoints = new Array();
+      var polyline;
 
       function makePolyline(infosArray) {
         for (let j = 0; j < infosArray.length; j++) {
@@ -156,15 +158,45 @@ export default class MapThird extends Component {
               return { lat: info.latitude, lng: info.longitude };
             });
             points.push(latlngForSeaPoly[0], latlngForSeaPoly[1]);
-            getNextPoint();
-            var polyline = new google.maps.Polyline({
-               path: points,
+            tempPoints.push(latlngForSeaPoly[0], latlngForSeaPoly[1]);
+            polyline = new google.maps.Polyline({
+               path: tempPoints,
                geodesic: false,
                strokeColor: '#FF0000',
                strokeOpacity: 1.0,
                strokeWeight: 2
              });
              polyline.setMap(map);
+
+             var nextMarkerAt = 0;     // Counter for the marker checkpoints.
+             var nextPoint = null;     // The point where to place the next marker.
+
+             // Draw the checkpoint markers every 1000 meters.
+
+             while (true) {
+                // Call moveAlongPath which will return the GLatLng with the next
+                // marker on the path.
+                nextPoint = moveAlongPath(points, nextMarkerAt);
+
+
+                if (nextPoint) {
+                   // Draw the marker on the map.
+                   console.log(nextPoint);
+                   var marker = new google.maps.Marker({
+                     position: nextPoint,
+                     map: map
+                   });
+
+                   // Add +500km for the next checkpoint.
+                   nextMarkerAt += 500000;
+                }
+                else {
+                   // moveAlongPath returned null, so there are no more check points.
+                   break;
+                }
+             }
+
+
           }
 
           _.drop(infosArray);
@@ -172,20 +204,24 @@ export default class MapThird extends Component {
         }
       }
 
-      Number.prototype.toRad = function() {
-        return this * Math.PI / 180;
+      if (!('toRadians' in Number.prototype)) {
+        Number.prototype.toRadians = function() {
+          return this * Math.PI / 180;
+        }
       }
 
-      Number.prototype.toDeg = function() {
-        return this * 180 / Math.PI;
+      if (!('toDegrees' in Number.prototype)) {
+        Number.prototype.toDegrees = function() {
+          return this * 180 / Math.PI;
+        }
       }
 
-      function moveTowards(points, point, distance) {
-        var lat1 = points.lat.toRad();
-        var lon1 = points.lng.toRad();
-        var lat2 = point.lat.toRad();
-        var lon2 = point.lng.toRad();
-        var dLon = (point.lng - points.lng).toRad();
+      function moveTowards(somePoint, point, distance) {
+        var lat1 = somePoint.lat.toRadians();
+        var lon1 = somePoint.lng.toRadians();
+        var lat2 = point.lat.toRadians();
+        var lon2 = point.lng.toRadians();
+        var dLon = (point.lng - somePoint.lng).toRadians();
 
         // Find the bearing from this point to the next.
         var brng = Math.atan2(Math.sin(dLon) * Math.cos(lat2),
@@ -193,7 +229,7 @@ export default class MapThird extends Component {
                               Math.sin(lat1) * Math.cos(lat2) *
                               Math.cos(dLon));
 
-        var angDist = distance / 6371000;  // Earth's radius.
+        var angDist = distance / 6378100;  // Earth's radius.
 
         // Calculate the destination point, given the source and bearing.
         lat2 = Math.asin(Math.sin(lat1) * Math.cos(angDist) +
@@ -207,7 +243,7 @@ export default class MapThird extends Component {
 
         if (isNaN(lat2) || isNaN(lon2)) return null;
 
-        var glatlng = new google.maps.LatLng(lat2.toDeg(), lon2.toDeg());
+        var glatlng = {lat:lat2.toDegrees(), lng:lon2.toDegrees()};
 
         return glatlng;
      }
@@ -218,30 +254,24 @@ export default class MapThird extends Component {
         if (index < points.length) {
            // There is still at least one point further from this point.
 
-           // Construct a GPolyline to use the getLength() method.
-           var polyline = new google.maps.Polyline({
-             path: [points[index], points[index + 1]]
-           });
-
-           console.log(points[index], points[index+1]);
-
-           var pointFirst = new google.maps.LatLng(points[index].lat, points[index].lng);
-           var pointSecond = new google.maps.LatLng(points[index+1].lat, points[index+1].lng);
+           var pointFirst = new google.maps.LatLng(_.head(tempPoints).lat, _.head(tempPoints).lng);
+           var pointLast = new google.maps.LatLng(_.last(tempPoints).lat, _.last(tempPoints).lng);
 
            // Get the distance from this point to the next point in the polyline.
-           var distanceToNextPoint = google.maps.geometry.spherical.computeDistanceBetween(pointFirst, pointSecond);
+           var distanceToNextPoint = google.maps.geometry.spherical.computeDistanceBetween(pointFirst, pointLast);
 
            if (distance <= distanceToNextPoint) {
               // distanceToNextPoint is within this point and the next.
               // Return the destination point with moveTowards().
-              return moveTowards(points[index], points[index + 1], distance);
+              console.log(distance, distanceToNextPoint);
+              points[index] = moveTowards(points[index], points[index + 1], distance);
+              return points[index];
+              index = index+1;
            }
            else {
               // The destination is further from the next point. Subtract
               // distanceToNextPoint from distance and continue recursively.
-              return moveAlongPath(points,
-                                   distance - distanceToNextPoint,
-                                   index + 1);
+              return null;
            }
         }
         else {
@@ -251,32 +281,6 @@ export default class MapThird extends Component {
         }
      }
 
-     var nextMarkerAt = 0;     // Counter for the marker checkpoints.
-     var nextPoint = null;     // The point where to place the next marker.
-
-     // Draw the checkpoint markers every 1000 meters.
-     function getNextPoint() {
-       while (true) {
-          // Call moveAlongPath which will return the GLatLng with the next
-          // marker on the path.
-          nextPoint = moveAlongPath(points, nextMarkerAt);
-
-          if (nextPoint) {
-             // Draw the marker on the map.
-             var marker = new google.maps.Marker({
-               position: nextPoint,
-               map: map
-             });
-
-             // Add +1000 meters for the next checkpoint.
-             nextMarkerAt += 1000;
-          }
-          else {
-             // moveAlongPath returned null, so there are no more check points.
-             break;
-          }
-       }
-     }
 
 
 
