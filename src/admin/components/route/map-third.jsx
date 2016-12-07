@@ -132,7 +132,6 @@ export default class MapThird extends Component {
       var points = new Array();
 
       function makePolyline(infosArray) {
-        console.log(infosArray);
         for (let j = 0; j < infosArray.length; j++) {
 
           let newInfos = [];
@@ -182,11 +181,11 @@ export default class MapThird extends Component {
       }
 
       function moveTowards(points, point, distance) {
-        var lat1 = points.lat().toRad();
-        var lon1 = points.lng().toRad();
-        var lat2 = point.lat().toRad();
-        var lon2 = point.lng().toRad();
-        var dLon = (point.lng() - points.lng()).toRad();
+        var lat1 = points.lat.toRad();
+        var lon1 = points.lng.toRad();
+        var lat2 = point.lat.toRad();
+        var lon2 = point.lng.toRad();
+        var dLon = (point.lng - points.lng).toRad();
 
         // Find the bearing from this point to the next.
         var brng = Math.atan2(Math.sin(dLon) * Math.cos(lat2),
@@ -208,13 +207,12 @@ export default class MapThird extends Component {
 
         if (isNaN(lat2) || isNaN(lon2)) return null;
 
-        const glatlng = new google.maps.LatLng(lat2.toDeg(), lon2.toDeg());
+        var glatlng = new google.maps.LatLng(lat2.toDeg(), lon2.toDeg());
 
         return glatlng;
      }
 
      function moveAlongPath(points, distance, index) {
-       console.log(points);
         index = index || 0;  // Set index to 0 by default.
 
         if (index < points.length) {
@@ -225,8 +223,13 @@ export default class MapThird extends Component {
              path: [points[index], points[index + 1]]
            });
 
+           console.log(points[index], points[index+1]);
+
+           var pointFirst = new google.maps.LatLng(points[index].lat, points[index].lng);
+           var pointSecond = new google.maps.LatLng(points[index+1].lat, points[index+1].lng);
+
            // Get the distance from this point to the next point in the polyline.
-           var distanceToNextPoint = google.maps.geometry.spherical.computeDistanceBetween(points[index], points[index + 1]);
+           var distanceToNextPoint = google.maps.geometry.spherical.computeDistanceBetween(pointFirst, pointSecond);
 
            if (distance <= distanceToNextPoint) {
               // distanceToNextPoint is within this point and the next.
@@ -290,7 +293,6 @@ export default class MapThird extends Component {
 
     return (
       <div className="map">
-
         <GoogleMap
           ref={ref}
           height="600px"
