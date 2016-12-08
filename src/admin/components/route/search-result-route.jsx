@@ -76,9 +76,6 @@ export default class SearchResultRoute extends Component {
           <span className="td depth">{ (route.length - 5) / 2 } 번</span>
           <span className="td cost">{ this.costProgress(_.head(route)) }</span>
           <span className="td term">{ _.nth(route, 1) } 일</span>
-          <span className="td map-btn">
-            <Button bsStyle="info" onClick={this.viewResultMap}>{ showMapText }</Button>
-          </span>
         </div>
         { (showMap) ? <RouteDetail route={route} allPorts={allPorts} transports={transports}  /> : null }
       </li>

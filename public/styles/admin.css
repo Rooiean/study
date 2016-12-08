@@ -63,12 +63,27 @@ iframe {
       font-style: normal; }
   .result-container .search-result {
     width: 100%;
-    background: #ffffff; }
+    background: #ffffff;
+    position: relative; }
     .result-container .search-result .search-th {
       font-size: 16px;
       padding: 10px;
       background: #fafafa;
-      font-weight: bold; }
+      font-weight: bold;
+      position: relative; }
+    .result-container .search-result .route-box {
+      position: relative;
+      top: 0;
+      left: 0;
+      height: 100px; }
+      .result-container .search-result .route-box table {
+        height: 100px;
+        min-width: 100%;
+        max-width: none; }
+        .result-container .search-result .route-box table td {
+          width: 10%;
+          border-right: 1px solid #ccc;
+          padding: 0; }
     .result-container .search-result ul.list {
       list-style-type: none;
       margin: 0;
@@ -77,21 +92,14 @@ iframe {
         display: block;
         border-bottom: 1px solid #e0e0e0; }
     .result-container .search-result span.td {
-      width: 12.5%;
       display: inline-block;
       vertical-align: middle; }
       .result-container .search-result span.td.sport, .result-container .search-result span.td.dport {
-        width: 30%; }
-      .result-container .search-result span.td.depth, .result-container .search-result span.td.term {
-        width: 8%; }
-      .result-container .search-result span.td.cost {
-        width: 14%;
-        padding-right: 2%; }
-        .result-container .search-result span.td.cost .progress {
-          margin-bottom: 0; }
-      .result-container .search-result span.td.map-btn {
-        width: 10%;
-        text-align: center; }
+        width: 50%; }
+      .result-container .search-result span.td.sport {
+        text-align: left; }
+      .result-container .search-result span.td.dport {
+        text-align: right; }
     .result-container .search-result .result-contents {
       padding: 10px; }
 
@@ -163,19 +171,6 @@ iframe {
   position: relative;
   overflow: hidden;
   overflow-x: auto; }
-  .route-detail .route-box {
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 100px; }
-    .route-detail .route-box table {
-      height: 100px;
-      min-width: 100%;
-      max-width: none; }
-      .route-detail .route-box table td {
-        width: 10%;
-        border-right: 1px solid #ccc;
-        padding: 0; }
   .route-detail .route-contents {
     position: absolute;
     left: 0;

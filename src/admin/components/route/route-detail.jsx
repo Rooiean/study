@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Label, Table } from 'react-bootstrap';
+import { Label, Table, ProgressBar } from 'react-bootstrap';
 
 export default class RouteDetail extends Component {
   constructor(props) {
@@ -11,6 +11,8 @@ export default class RouteDetail extends Component {
     }
 
     this.routeInformation = this.routeInformation.bind(this);
+    this.costProgress = this.costProgress.bind(this);
+    this.findPortInfo = this.findPortInfo.bind(this);
   }
 
   componentDidMount() {
@@ -34,8 +36,23 @@ export default class RouteDetail extends Component {
     }
 
     this.setState({ portAndTransInfo : portAndTransArray });
-
   }
+
+  costProgress(cost) {
+    const now = cost/3500000;
+    let progStyle;
+    if(now>50) {
+      progStyle = 'danger';
+    }
+    return <ProgressBar bsStyle={progStyle} now={now} />
+  }
+
+  findPortInfo(queryText) {
+    const { allPorts } = this.props.search;
+    const portInfo = _.find(allPorts, { 'id': queryText });
+    return <span>{ portInfo.name }({portInfo.locationCode}) / { portInfo.type }</span>;
+  }
+
 
   render() {
     const { route } = this.props;
@@ -44,47 +61,10 @@ export default class RouteDetail extends Component {
 
     return (
       <div className="route-detail">
-        <div className="route-box">
-          <Table>
-            <tbody>
-              <tr>
-                <td>
-                  <Label>0 days</Label>
-                </td>
-                <td>
-                  <Label>5 days</Label>
-                </td>
-                <td>
-                  <Label>10 days</Label>
-                </td>
-                <td>
-                  <Label>15 days</Label>
-                </td>
-                <td>
-                  <Label>20 days</Label>
-                </td>
-                <td>
-                  <Label>25 days</Label>
-                </td>
-                <td>
-                  <Label>30 days</Label>
-                </td>
-                <td>
-                  <Label>35 days</Label>
-                </td>
-                <td>
-                  <Label>40 days</Label>
-                </td>
-                <td>
-                  <Label>45 days</Label>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
         <div className="route-contents">
-          <div>cost : { _.nth(route, 0) }</div>
-          <div>time : { _.nth(route, 1) }</div>
+          <div>가격 : { this.costProgress(_.nth(route, 0)) }</div>
+          <div>시간 : { _.nth(route, 1) }일</div>
+          <div>환승횟수: { (route.length - 5) / 2 }번</div>
           <ul className="port-list">
           {
             _.map(portAndTransInfo, (pinfo, index) => {
