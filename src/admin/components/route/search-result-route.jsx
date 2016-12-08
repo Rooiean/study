@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Button, ProgressBar } from 'react-bootstrap';
-import MapThird from './map-third';
+import RouteDetail from './route-detail';
 
 export default class SearchResultRoute extends Component {
 
@@ -10,7 +10,7 @@ export default class SearchResultRoute extends Component {
 
     this.state = {
       showMap: false,
-      showMapText: '지도보기',
+      showMapText: 'Detail',
     }
 
     this.findPortInfo = this.findPortInfo.bind(this);
@@ -25,7 +25,7 @@ export default class SearchResultRoute extends Component {
     if(!_.isEqual(this.props.search.routes, nextProps.search.routes)) {
         this.setState({
           showMap : false,
-          showMapText: '지도보기',
+          showMapText: 'Detail',
        });
     }
   }
@@ -42,12 +42,12 @@ export default class SearchResultRoute extends Component {
     if(showMap) {
         this.setState({
           showMap : false,
-          showMapText: '지도보기',
+          showMapText: 'Detail',
        });
     } else {
         this.setState({
           showMap : true,
-          showMapText: '지도닫기',
+          showMapText: 'Close',
        });
     }
   }
@@ -69,7 +69,7 @@ export default class SearchResultRoute extends Component {
     const { transports } = this.props.search;
 
     return(
-      <li>
+      <li className="routes">
         <div className="result-contents">
           <span className="td sport">{ this.findPortInfo(_.nth(route, 2)) }</span>
           <span className="td dport">{ this.findPortInfo(_.last(route)) }</span>
@@ -80,7 +80,7 @@ export default class SearchResultRoute extends Component {
             <Button bsStyle="info" onClick={this.viewResultMap}>{ showMapText }</Button>
           </span>
         </div>
-        { (showMap) ? <MapThird route={route} allPorts={allPorts} transports={transports}  /> : null }
+        { (showMap) ? <RouteDetail route={route} allPorts={allPorts} transports={transports}  /> : null }
       </li>
     );
   }

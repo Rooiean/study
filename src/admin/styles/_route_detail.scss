@@ -1,0 +1,70 @@
+.route-detail {
+  width:100%;
+  position: relative;
+  overflow: hidden;
+  overflow-x: auto;
+
+  .route-box {
+    position: relative;;
+    top:0;
+    left:0;
+    height: 100px;
+
+    table {
+      height:100px;
+      min-width:100%;
+      max-width: none;
+      td {
+        width:10%;
+        border-right:1px solid #ccc;
+        padding:0;
+
+        label {
+
+        }
+      }
+    }
+  }
+
+  .route-contents {
+      position: absolute;
+      left:0;
+      top:0;
+      min-width:100%;
+  }
+
+  ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+    min-width:100%;
+    font-size: 10px;
+  }
+
+  .port-list {
+    position: absolute;
+    li {
+      position: absolute;
+      width:10%;
+      height:60px;
+      background:#f5f5f5;
+      border-top:1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+
+      &.AIRPORT {
+        width:10%;
+        background: #2196F3;
+        border:1px solid #1489e6;
+        color:#ffffff;
+      }
+
+      &.SEAPORT {
+        width:10%;
+        background: #3F51B5;
+        border:1px solid #3244a8;
+        color:#ffffff;
+      }
+
+    }
+  }
+}

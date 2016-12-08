@@ -62,13 +62,13 @@ export default class Search extends Component {
               <label>
                 최대 비용
               </label>
-              <Slider allowCross={false} ref="cost"/>
+              <Slider allowCross={false} ref="cost" defaultValue={100} />
             </Col>
             <Col md={4}>
               <label>
                 최대 소요 시간
               </label>
-              <Slider allowCross={false} ref="term"/>
+              <Slider allowCross={false} ref="term" defaultValue={100}/>
             </Col>
           </Row>
         </Panel>

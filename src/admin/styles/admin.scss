@@ -1,8 +1,9 @@
 @import "_common.scss";
 @import "_search.scss";
 @import "_cost.scss";
-@import "./nav/_menu.scss";
-@import "./table/_table.scss";
-@import "./modals/_detail.scss";
+@import "_menu.scss";
+@import "_table.scss";
+@import "_detail_modal.scss";
+@import "_route_detail.scss";
 
 /*sass --watch ./src/admin/styles/admin.scss:./public/styles/admin.css*/

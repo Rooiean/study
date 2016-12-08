@@ -24,9 +24,9 @@ export default class SearchResult extends Component {
                   <span className="td depth">환승</span>
                   <span className="td cost">가격</span>
                   <span className="td term">기간</span>
-                  <span className="td map-btn">지도보기</span>
+                  <span className="td map-btn">Detail</span>
                 </div>
-                <ul className="search-body">
+                <ul className="list">
                 {
                   _.map(routes.routes, (route, index) => (
                     <SearchResultRoute key={index} route={route} search={search}/>
