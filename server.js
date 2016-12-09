@@ -23,9 +23,6 @@ var allowCrossDomain = function(req, res, next) {
 app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, 'public')));
-app.get('/admin/*', function (req, res) {
-  res.sendFile(__dirname +'/public/admin.html')
-});
 app.get('*', function (req, res) {
   res.sendFile(__dirname +'/public/index.html')
 });

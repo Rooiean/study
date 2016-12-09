@@ -45,12 +45,32 @@ export const portSearch = (type, country) => dispatch =>
   }));
 
 
-export const routeSearch = (sport, dport, depth, cost, term) => dispatch =>
-  dispatch(__routeSearch__({
+export const routeSearch = (sport, dport, depth, cost, term, fromdate) => dispatch =>{
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth()+1; //January is 0!
+  let yyyy = today.getFullYear();
+
+  if(dd<10) {
+      dd='0'+dd
+  };
+
+  if(mm<10) {
+      mm='0'+mm
+  };
+
+  today = yyyy+'-'+mm+'-'+dd;
+
+  if (_.isEmpty(fromdate)) {
+    fromdate = today;
+  };
+
+  return dispatch(__routeSearch__({
     method: 'get',
-    path: prefix + `/searchroutes/routes?sport=${sport}&dport=${dport}&limitdepth=${depth}&costlimit=${cost}&termlimit=${term}`,
+    path: prefix + `/searchroutes/routes?sport=${sport}&dport=${dport}&limitdepth=${depth}&costlimit=${cost}&termlimit=${term}&fromdate=${fromdate}`,
     dist: 'routes', status: 'routesStatus',
   }));
+}
 
 export const detectLogs = () => dispatch =>
   dispatch(__detectLogs__({

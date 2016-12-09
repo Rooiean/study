@@ -2,16 +2,50 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import RouteDetail from './route-detail';
 import { Label, Table } from 'react-bootstrap';
+import store from 'store';
 
 export default class SearchResult extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      fistRoute: []
+    }
+    this.routeOrigAndDest = this.routeOrigAndDest.bind(this);
     this.findPortInfo = this.findPortInfo.bind(this);
   }
 
+  componentDidMount() {
+    this.routeOrigAndDest();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(_.isEqual(this.props.search, nextProps.search)) {
+      return;
+    }
+    this.routeOrigAndDest();
+  }
+
+  routeOrigAndDest() {
+    const { routes } = store.getState().search;
+    const { firstRoute } = this.state;
+    let routeFirst = [];
+    if(!_.isEmpty(routes.routes)) {
+      routeFirst = _.nth(routes.routes, 0);
+      this.setState({firstRoute:routeFirst});
+    }
+  }
+
+  findPortInfo(queryText) {
+    const { allPorts } = this.props.search;
+    const portInfo = _.find(allPorts, { 'id': queryText });
+    return <div className={ portInfo.type }>{ portInfo.name }({portInfo.locationCode}) / { portInfo.type }</div>;
+  }
+
   render() {
-    const { transports, allPorts, routes } = this.props.search;
+    const { transports, allPorts } = this.props.search;
+    const { firstRoute } = this.state;
+    const { routes, routesStatus } = store.getState().search;
 
     return (
       <div className="result-container">
@@ -23,52 +57,35 @@ export default class SearchResult extends Component {
             }
             return (
               <div className="search-result">
-
-                <div className="route-box">
-                  <Table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <Label>0 days</Label>
-                        </td>
-                        <td>
-                          <Label>5 days</Label>
-                        </td>
-                        <td>
-                          <Label>10 days</Label>
-                        </td>
-                        <td>
-                          <Label>15 days</Label>
-                        </td>
-                        <td>
-                          <Label>20 days</Label>
-                        </td>
-                        <td>
-                          <Label>25 days</Label>
-                        </td>
-                        <td>
-                          <Label>30 days</Label>
-                        </td>
-                        <td>
-                          <Label>35 days</Label>
-                        </td>
-                        <td>
-                          <Label>40 days</Label>
-                        </td>
-                        <td>
-                          <Label>45 days</Label>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-                <ul className="list">
                 {
-                  _.map(routes.routes, (route, index) => (
-                    <RouteDetail key={index} route={route} allPorts={allPorts} transports={transports} />
-                  ))
+                  (() => {
+                    if(!_.isEmpty(firstRoute)) {
+                        return(
+                          <div className="start-end">
+                            <div className="start">{ this.findPortInfo(_.nth(firstRoute, 2)) }</div>
+                            <div className="end">{ this.findPortInfo(_.last(firstRoute)) }</div>
+                          </div>
+                        );
+                    }
+                  })()
                 }
-                </ul>
+                <div className="route-box">
+                {
+                  (() => {
+                    if(_.isEqual(routesStatus, 'request')) {
+                        return <div>Search...</div>;
+                    } else if(_.isEqual(routesStatus, 'success')) {
+                      return (
+                        _.map(routes.routes, (route, index) => (
+                          <RouteDetail key={index} route={route} allPorts={allPorts} transports={transports} />
+                        ))
+                      );
+                    } else {
+                      return null;
+                    }
+                  })()
+                }
+                </div>
               </div>
             );
           })()

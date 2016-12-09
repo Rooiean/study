@@ -7,6 +7,8 @@ html, body {
     height: 100%; }
     html #app > div, body #app > div {
       height: 100%; }
+      html #app > div > div, body #app > div > div {
+        height: 100%; }
       html #app > div .iframe-container, body #app > div .iframe-container {
         height: 99.8%;
         padding-top: 50px; }
@@ -63,45 +65,44 @@ iframe {
       font-style: normal; }
   .result-container .search-result {
     width: 100%;
-    background: #ffffff;
     position: relative; }
-    .result-container .search-result .search-th {
-      font-size: 16px;
-      padding: 10px;
-      background: #fafafa;
-      font-weight: bold;
-      position: relative; }
     .result-container .search-result .route-box {
       position: relative;
-      top: 0;
-      left: 0;
-      height: 100px; }
-      .result-container .search-result .route-box table {
-        height: 100px;
-        min-width: 100%;
-        max-width: none; }
-        .result-container .search-result .route-box table td {
-          width: 10%;
-          border-right: 1px solid #ccc;
-          padding: 0; }
-    .result-container .search-result ul.list {
-      list-style-type: none;
-      margin: 0;
-      padding: 0; }
-      .result-container .search-result ul.list li.routes {
+      padding-bottom: 50px; }
+    .result-container .search-result .start-end {
+      height: 70px; }
+      .result-container .search-result .start-end .start .AIRPORT, .result-container .search-result .start-end .start .SEAPORT, .result-container .search-result .start-end .end .AIRPORT, .result-container .search-result .start-end .end .SEAPORT {
         display: block;
-        border-bottom: 1px solid #e0e0e0; }
-    .result-container .search-result span.td {
-      display: inline-block;
-      vertical-align: middle; }
-      .result-container .search-result span.td.sport, .result-container .search-result span.td.dport {
-        width: 50%; }
-      .result-container .search-result span.td.sport {
-        text-align: left; }
-      .result-container .search-result span.td.dport {
-        text-align: right; }
-    .result-container .search-result .result-contents {
-      padding: 10px; }
+        width: 130px;
+        height: 50px;
+        padding: 10px;
+        color: #ffffff;
+        font-size: 11px;
+        text-align: center;
+        border-radius: 10px;
+        position: relative; }
+        .result-container .search-result .start-end .start .AIRPORT::before, .result-container .search-result .start-end .start .SEAPORT::before, .result-container .search-result .start-end .end .AIRPORT::before, .result-container .search-result .start-end .end .SEAPORT::before {
+          position: absolute;
+          left: 60px;
+          top: 50px;
+          content: '';
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 10px 5px 0 5px; }
+      .result-container .search-result .start-end .start .AIRPORT, .result-container .search-result .start-end .end .AIRPORT {
+        background: #2196F3; }
+        .result-container .search-result .start-end .start .AIRPORT::before, .result-container .search-result .start-end .end .AIRPORT::before {
+          border-color: #2196F3 transparent transparent transparent; }
+      .result-container .search-result .start-end .start .SEAPORT, .result-container .search-result .start-end .end .SEAPORT {
+        background: #3f51b5; }
+        .result-container .search-result .start-end .start .SEAPORT::before, .result-container .search-result .start-end .end .SEAPORT::before {
+          border-color: #3f51b5 transparent transparent transparent; }
+      .result-container .search-result .start-end .start {
+        float: left; }
+      .result-container .search-result .start-end .end {
+        float: right;
+        margin-right: 4.5%; }
 
 .cost-box {
   margin: 100px auto;
@@ -169,38 +170,80 @@ iframe {
 .route-detail {
   width: 100%;
   position: relative;
-  overflow: hidden;
-  overflow-x: auto; }
-  .route-detail .route-contents {
+  display: block;
+  clear: both; }
+  .route-detail:nth-of-type(2n+2) table {
+    background: #fbfbfb; }
+  .route-detail:last-child table {
+    border-bottom: 1px solid #ddd; }
+  .route-detail table {
+    position: relative;
+    width: 90%;
+    height: 100px;
+    background: #ffffff;
+    margin-bottom: 0; }
+    .route-detail table tr {
+      border-left: 1px solid #ccc; }
+    .route-detail table td {
+      width: 7%;
+      border-right: 1px solid #ccc;
+      padding: 0; }
+  .route-detail .for-scroll {
     position: absolute;
-    left: 0;
     top: 0;
-    min-width: 100%; }
-  .route-detail ul {
+    left: 0;
+    overflow: hidden;
+    width: 90%;
+    height: 100px;
+    display: block; }
+    .route-detail .for-scroll:hover {
+      overflow-x: auto;
+      overflow-y: hidden; }
+  .route-detail ul.port-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    min-width: 100%;
-    font-size: 10px; }
-  .route-detail .port-list {
-    position: absolute; }
-    .route-detail .port-list li {
-      position: absolute;
-      width: 10%;
+    font-size: 10px;
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    overflow-x: visible;
+    overflow-y: hidden; }
+    .route-detail ul.port-list li {
+      padding: 5px;
+      display: block;
+      float: left;
+      width: 60px;
       height: 60px;
-      background: #f5f5f5;
+      line-height: 12px;
+      font-weight: bold;
+      background: rgba(238, 238, 238, 0.6);
       border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc; }
-      .route-detail .port-list li.AIRPORT {
-        width: 10%;
+      border-bottom: 1px solid #ccc;
+      overflow-wrap: break-word; }
+      .route-detail ul.port-list li.AIRPORT {
+        width: 60px;
         background: #2196F3;
         border: 1px solid #1489e6;
         color: #ffffff; }
-      .route-detail .port-list li.SEAPORT {
-        width: 10%;
+      .route-detail ul.port-list li.SEAPORT {
+        width: 60px;
         background: #3F51B5;
         border: 1px solid #3244a8;
         color: #ffffff; }
+  .route-detail .route-info {
+    position: absolute;
+    right: 0;
+    top: 4px;
+    width: 10%;
+    padding: 10px;
+    height: 94px;
+    font-size: 12px;
+    background: #ffffff;
+    border-radius: 0 3px 3px 0; }
+    .route-detail .route-info .progress {
+      height: 15px;
+      margin-bottom: 10px; }
 
 /*sass --watch ./src/admin/styles/admin.scss:./public/styles/admin.css*/
 

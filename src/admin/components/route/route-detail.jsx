@@ -12,10 +12,16 @@ export default class RouteDetail extends Component {
 
     this.routeInformation = this.routeInformation.bind(this);
     this.costProgress = this.costProgress.bind(this);
-    this.findPortInfo = this.findPortInfo.bind(this);
   }
 
   componentDidMount() {
+    this.routeInformation();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(_.isEqual(this.props.route, nextProps.route)) {
+      return;
+    }
     this.routeInformation();
   }
 
@@ -30,7 +36,8 @@ export default class RouteDetail extends Component {
         const portInfo = _.find(allPorts, {'id': reRoute[i] });
         portAndTransArray.push(portInfo);
       } else {
-        const transInfo = _.find(transports, {'id': reRoute[i] });
+        let transId = _.head(_.split(reRoute[i], ':'));
+        const transInfo = _.find(transports, {'id': transId });
         portAndTransArray.push(transInfo);
       }
     }
@@ -47,46 +54,61 @@ export default class RouteDetail extends Component {
     return <ProgressBar bsStyle={progStyle} now={now} />
   }
 
-  findPortInfo(queryText) {
-    const { allPorts } = this.props.search;
-    const portInfo = _.find(allPorts, { 'id': queryText });
-    return <span>{ portInfo.name }({portInfo.locationCode}) / { portInfo.type }</span>;
-  }
-
 
   render() {
     const { route } = this.props;
     const { portAndTransInfo } = this.state;
+    const ulStyle = {
+      width: (60 * _.nth(route, 1)/3) + (route.length * 60) - 200 +'px'
+    };
     console.log(portAndTransInfo);
-
     return (
       <div className="route-detail">
-        <div className="route-contents">
+        <Table>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </Table>
+        <div className="for-scroll">
+        <ul className="port-list" style={ulStyle}>
+        {
+          _.map(portAndTransInfo, (pinfo, index) => {
+            if(index%2==0) {
+              return(
+                <li key={ index } className={ pinfo.type }>
+                  <div>{ pinfo.name }, { pinfo.countryCode }</div>
+                </li>
+              );
+            } else {
+              const timeWidth = { width: (60 * pinfo.requiredTime/3) + 'px' };
+              return(
+                <li key={ index } className={ pinfo.type } style={timeWidth}>
+                  <div>{ pinfo.type }</div>
+                  <div>{ pinfo.requiredTime } 일</div>
+                </li>
+              );
+            }
+          })
+        }
+        </ul>
+      </div>
+        <div className="route-info">
           <div>가격 : { this.costProgress(_.nth(route, 0)) }</div>
           <div>시간 : { _.nth(route, 1) }일</div>
           <div>환승횟수: { (route.length - 5) / 2 }번</div>
-          <ul className="port-list">
-          {
-            _.map(portAndTransInfo, (pinfo, index) => {
-              if(index%2==0) {
-                return(
-                  <li key={ index } className={ pinfo.type }>
-                    <div>{ pinfo.name }, { pinfo.countryCode }</div>
-                    <div>{ pinfo.type }</div>
-                  </li>
-                );
-              } else {
-                const timeWidth = { width: (10 * pinfo.requiredTime/5) + '%' };
-                return(
-                  <li key={ index } className={ pinfo.type } style={timeWidth}>
-                    <div>{ pinfo.type }</div>
-                    <div>{ pinfo.requiredTime }</div>
-                  </li>
-                );
-              }
-            })
-          }
-          </ul>
         </div>
       </div>
     );

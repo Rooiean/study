@@ -4,9 +4,16 @@ import React, {Component} from 'react';
 import { Col } from 'react-bootstrap';
 import CostEditor from '../components/cost-editor';
 
+import { costs } from 'actions';
+import store from 'store';
+
 export class Cost extends Component {
+  componentDidMount() {
+    store.dispatch(costs.getCosts());
+  }
+
   render() {
-    const { data } = this.props.costs;
+    const { data } = store.getState().costs;
 
     return (
       <div className="page-wrapper">
