@@ -104,11 +104,10 @@ iframe {
         float: right;
         margin-right: 4.5%; }
 
-.cost-box {
-  margin: 100px auto;
-  float: none; }
-  .cost-box .well {
-    background: #ffffff; }
+.cost-box .well {
+  background: #ffffff; }
+.cost-box .btn-primary {
+  float: right; }
 
 .menu {
   background: #1E1E29;
@@ -129,6 +128,19 @@ iframe {
   display: block; }
   .tables .add {
     margin-top: 20px; }
+  .tables .find-transport {
+    padding-top: 20px; }
+    .tables .find-transport label, .tables .find-transport input, .tables .find-transport button, .tables .find-transport .select-box {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 5px; }
+    .tables .find-transport .form-group {
+      margin-bottom: 0; }
+    .tables .find-transport .select-box {
+      min-width: 200px; }
+      .tables .find-transport .select-box .Select {
+        display: block;
+        min-width: 200px; }
   .tables hr {
     margin: 10px 0; }
   .tables .btn-primary {
@@ -185,9 +197,11 @@ iframe {
     .route-detail table tr {
       border-left: 1px solid #ccc; }
     .route-detail table td {
-      width: 7%;
       border-right: 1px solid #ccc;
-      padding: 0; }
+      padding: 0;
+      max-width: 60px; }
+      .route-detail table td:first-child {
+        width: 89px; }
   .route-detail .for-scroll {
     position: absolute;
     top: 0;

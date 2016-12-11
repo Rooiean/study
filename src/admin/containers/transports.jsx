@@ -1,9 +1,11 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import store from 'store';
 
 import React, { Component } from 'react';
 import { search } from 'actions';
 import { Transport, DetailModal } from 'components/transport';
+import { Cost } from 'components/cost';
 
 import { Grid, Button, Input } from 'react-bootstrap';
 
@@ -29,16 +31,17 @@ export class Transports extends Component {
     this.setEndPort =  this.setEndPort.bind(this);
   }
 
-  componentDidMount() {
-    this.getOptions();
+  componentWillReceiveProps(nextProps) {
+    if(_.isEqual(nextProps.search.allPortsStatus, 'success')) {
+      this.getOptions();
+    }
   }
 
   getOptions() {
-    const { allPorts } = this.props.search;
-    console.log(allPorts);
+    const { allPorts } = store.getState().search;
 
     const ports = _.map(allPorts, port => {
-      return { id: port.id, port: port.name + ' / ' + port.locationCode, country: port.countryCode }
+      return { id: port.id, port: port.name + ' / ' + port.locationCode + ' / ' + port.countryCode + ' / ' + port.type }
     }).concat();
 
     this.setState({
@@ -47,18 +50,34 @@ export class Transports extends Component {
   }
 
   setStartPort(e) {
-    this.setState({ startPort: e, startId:e.id });
+    if (!_.isEmpty(e)) {
+      this.setState({ startPort: e, startId:e.id });
+    } else {
+      this.setState({ startPort: '', startId: '' });
+    }
   }
 
   setEndPort(e) {
-    this.setState({ endPort: e, endId:e.id });
+    if (!_.isEmpty(e)) {
+      this.setState({ endPort: e, endId:e.id });
+    } else {
+      this.setState({ endPort: '', endId:'' });
+    }
   }
 
   handleClickSearchTrans() {
     const { transports } = this.props.search;
     const start = this.state.startId;
     const end = this.state.endId;
-    let transInfoList = _.filter(transports, { 'sourcePort': start });
+    let transInfoList = [];
+    if(_.isEmpty(end)) {
+      transInfoList = _.filter(transports, { 'sourcePort': start });
+    } else if(_.isEmpty(start)) {
+      transInfoList = _.filter(transports, { 'destinationPort': end });
+    } else {
+      transInfoList = _.filter(transports, { 'sourcePort': start, 'destinationPort': end });
+    }
+
     this.setState({transInfos: transInfoList});
   }
 
@@ -72,25 +91,29 @@ export class Transports extends Component {
           <h2 className="fl">Transports</h2>
           <div className="find-transport fr">
             <label>출발지</label>
-            <Select
-              name="form-field-name"
-              valueKey="id"
-              labelKey="port"
-              options={options}
-              placeholder="출발지"
-              onChange={e => this.setStartPort(e)}
-            	value={this.state.startPort}
-            />
+            <div className="select-box">
+              <Select
+                name="start-port"
+                valueKey="id"
+                labelKey="port"
+                options={options}
+                placeholder="출발지"
+                onChange={e => this.setStartPort(e)}
+              	value={this.state.startPort}
+              />
+            </div>
             <label>도착지</label>
-            <Select
-              name="form-field-name"
-              valueKey="id"
-              labelKey="port"
-              options={options}
-              placeholder="도착지"
-              onChange={e => this.setEndPort(e)}
-            	value={this.state.endPort}
-            />
+            <div className="select-box">
+              <Select
+                name="end-port"
+                valueKey="id"
+                labelKey="port"
+                options={options}
+                placeholder="도착지"
+                onChange={e => this.setEndPort(e)}
+              	value={this.state.endPort}
+              />
+            </div>
             <Button onClick={this.handleClickSearchTrans} bsStyle="primary">
               Search Transports
             </Button>
@@ -116,6 +139,8 @@ export class Transports extends Component {
           }
           <DetailModal showModal={this.state.showAddModal} onHide={this.handleHideAddModal} />
         </div>
+        <hr />
+        <Cost />
       </Grid>
     );
   }

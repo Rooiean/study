@@ -32,12 +32,6 @@ export default class AdminMenu extends Component {
                 <span>Transports</span>
               </NavItem>
             </LinkContainer>
-            <LinkContainer to="/admin/cost">
-              <NavItem>
-                <i className="fa fa-calculator" />
-                <span>Cost Editor</span>
-              </NavItem>
-            </LinkContainer>
             <LinkContainer to="/admin/scrapper">
               <NavItem>
                 <i className="fa fa-area-chart" />

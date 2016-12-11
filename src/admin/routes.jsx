@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute, Router, browserHistory } from 'react-router';
 
-import { App, AdminApp, Home, SearchRoutes, Ports, Transports, Cost, Scrapper } from './containers';
+import { App, AdminApp, Home, SearchRoutes, Ports, Transports, Scrapper } from './containers';
 
 const routes = (
   <Router history={browserHistory}>
@@ -14,7 +14,6 @@ const routes = (
       <Route path="search" component={SearchRoutes} />
       <Route path="ports" component={Ports} />
       <Route path="transports" component={Transports} />
-      <Route path="cost" component={Cost} />
       <Route path="scrapper" component={Scrapper} />
     </Route>
   </Router>

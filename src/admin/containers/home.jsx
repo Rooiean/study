@@ -17,13 +17,13 @@ export class Home extends Component {
   }
 
   render() {
-    const { search } = this.props;
+    const { search, dispatch } = this.props;
     return (
       <div>
         <Menu />
         <div className="header">
           <Grid>
-            <Search search={search} />
+            <Search search={search} dispatch={dispatch} />
           </Grid>
         </div>
         <Grid>

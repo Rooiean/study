@@ -46,7 +46,7 @@ export default class RouteDetail extends Component {
   }
 
   costProgress(cost) {
-    const now = cost/3500000;
+    const now = cost/100;
     let progStyle;
     if(now>50) {
       progStyle = 'danger';
@@ -61,12 +61,13 @@ export default class RouteDetail extends Component {
     const ulStyle = {
       width: (60 * _.nth(route, 1)/3) + (route.length * 60) - 200 +'px'
     };
-    console.log(portAndTransInfo);
     return (
       <div className="route-detail">
         <Table>
           <tbody>
             <tr>
+              <td></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -93,13 +94,23 @@ export default class RouteDetail extends Component {
                 </li>
               );
             } else {
-              const timeWidth = { width: (60 * pinfo.requiredTime/3) + 'px' };
-              return(
-                <li key={ index } className={ pinfo.type } style={timeWidth}>
-                  <div>{ pinfo.type }</div>
-                  <div>{ pinfo.requiredTime } 일</div>
-                </li>
-              );
+              if(_.isEqual(pinfo.type, 'VESSEL')) {
+                const timeWidth = { width: (60 * pinfo.requiredTime/3) + 'px' };
+                return (
+                  <li key={ index } className={ pinfo.type } style={timeWidth}>
+                    <div>{ pinfo.type }</div>
+                    <div>{ pinfo.requiredTime } 일</div>
+                  </li>
+                );
+              } else {
+                const timeWidth = { width: '60px' };
+                return (
+                  <li key={ index } className={ pinfo.type } style={timeWidth}>
+                    <div>{ pinfo.type }</div>
+                    <div>{ pinfo.requiredTime } 시간</div>
+                  </li>
+                );
+              }
             }
           })
         }

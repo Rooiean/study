@@ -27,9 +27,13 @@
       border-left: 1px solid #ccc;
     }
     td {
-      width:7%;
       border-right:1px solid #ccc;
       padding:0;
+      max-width: 60px;
+
+      &:first-child {
+        width:89px;
+      }
     }
   }
 

@@ -6,6 +6,28 @@
       margin-top:20px;
   }
 
+  .find-transport {
+    padding-top: 20px;
+    label, input, button, .select-box {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right:5px;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    .select-box {
+      min-width: 200px;
+      .Select {
+        display: block;
+        min-width: 200px;
+      }
+    }
+
+  }
+
   hr {
     margin:10px 0;
   }

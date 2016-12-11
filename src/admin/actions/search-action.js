@@ -65,6 +65,23 @@ export const routeSearch = (sport, dport, depth, cost, term, fromdate) => dispat
     fromdate = today;
   };
 
+  let defaultDepth = '3';
+  if (_.isEmpty(depth)) {
+    depth = defaultDepth;
+  };
+
+  let defaultCost = '10000';
+
+  if (_.isEmpty(fromdate)) {
+    cost = defaultCost;
+  };
+
+  let defaultTerm = '100';
+
+  if (_.isEmpty(term)) {
+    term = defaultTerm;
+  };
+
   return dispatch(__routeSearch__({
     method: 'get',
     path: prefix + `/searchroutes/routes?sport=${sport}&dport=${dport}&limitdepth=${depth}&costlimit=${cost}&termlimit=${term}&fromdate=${fromdate}`,

@@ -17,7 +17,7 @@ export default class Search extends Component {
     const origin = this.refs.origin.selectedPort();
     const destination = this.refs.destination.selectedPort();
     const depth = this.refs.depth.getValue();
-    const cost = this.refs.cost.getValue() * 3500000;
+    const cost = this.refs.cost.getValue() * 100;
     const term = this.refs.term.getValue();
 
     store.dispatch(search.routeSearch(origin, destination, depth, cost, term));
@@ -33,30 +33,23 @@ export default class Search extends Component {
             <Col md={6}>
               <div>
                 <h3>출발지</h3>
-                <SearchPortSelector
-                  label={'출발지 유형'}
-                  ref="origin"
-                />
+                <SearchPortSelector ref="origin" />
               </div>
             </Col>
             <Col md={6}>
               <div>
                 <h3>도착지</h3>
-                <SearchPortSelector
-                  label={'도착지 유형'}
-                  ref="destination"
-                />
+                <SearchPortSelector ref="destination" />
               </div>
             </Col>
           </Row>
-        </Panel>
-        <Panel className="options">
+          <hr />
           <Row>
             <Col md={4}>
               <label>
                 최대 환승 수
               </label>
-              <Input type="number" ref="depth"/>
+              <Input type="number" ref="depth" defaultValue={3}/>
             </Col>
             <Col md={4}>
               <label>
