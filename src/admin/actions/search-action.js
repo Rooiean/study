@@ -66,13 +66,14 @@ export const routeSearch = (sport, dport, depth, cost, term, fromdate) => dispat
   };
 
   let defaultDepth = '3';
+
   if (_.isEmpty(depth)) {
     depth = defaultDepth;
   };
 
   let defaultCost = '10000';
 
-  if (_.isEmpty(fromdate)) {
+  if (_.isEmpty(cost)) {
     cost = defaultCost;
   };
 

@@ -3,7 +3,7 @@ import store from 'store';
 import React, { Component } from 'react';
 
 import { InputFieldOverlay } from '../../contrib';
-import PortSelector from './port-selector';
+import UserPortSelector from './user-port-selector';
 import { search } from 'actions';
 
 import { Panel, Input, Select, Button, Row, Col } from 'react-bootstrap';
@@ -20,9 +20,13 @@ export default class Search extends Component {
   handleClickSearch() {
     const sport = this.refs.origin.selectedPort();
     const dport = this.refs.destination.selectedPort();
+    const depth = '3';
+    const cost = '10000';
+    const term = '100';
     const fromdate = this.refs.oriDay.returnValue();
 
-    store.dispatch(search.routeSearch(sport, dport, fromdate));
+
+    store.dispatch(search.routeSearch(sport, dport, depth, cost, term, fromdate));
   }
 
   render() {
@@ -32,27 +36,25 @@ export default class Search extends Component {
       <form className="search-inputs">
         <Panel>
           <Row>
-            <Col md={4}>
+            <Col sm={12} md={5}>
               <div>
-                <h3>출발지</h3>
-                <PortSelector
+                <label>출발지</label>
+                <UserPortSelector
                   allPorts={allPorts}
-                  label={'출발지 유형'}
                   ref="origin"
                 />
               </div>
             </Col>
-            <Col md={4}>
+            <Col sm={12} md={5}>
               <div>
-                <h3>도착지</h3>
-                <PortSelector
+                <label>도착지</label>
+                <UserPortSelector
                   allPorts={allPorts}
-                  label={'도착지 유형'}
                   ref="destination"
                 />
               </div>
             </Col>
-            <Col md={4}>
+            <Col sm={12} md={2}>
               <label>
                 출발날짜
               </label>

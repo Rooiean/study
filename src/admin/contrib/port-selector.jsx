@@ -12,6 +12,8 @@ export default class PortSelector extends Component {
     this.state = {
       portState: 'ALL',
       options: [],
+      options2: [],
+      value: '',
       port: '',
     };
 
@@ -32,6 +34,7 @@ export default class PortSelector extends Component {
     this.setState({
       portState: portType,
       port: '',
+      value: '',
       id: '',
      });
 
@@ -41,20 +44,39 @@ export default class PortSelector extends Component {
   }
 
   getOptions() {
-    const { allPorts } = this.props;
+    const { data } = store.getState().search;
 
-    const ports = _.map(allPorts, _data => {
-      return { id: _data.id, port: _data.name + ' / ' + _data.locationCode + ' / ' + _data.countrycode,  }
+    const countries = _.uniqBy(_.map(data, _data => {
+      return { value: _data.countryCode, country: _data.countryCode }
+    }).concat(), 'value');
+
+    const ports = _.map(data, _data => {
+      return { id: _data.id, port: _data.name + ' / ' + _data.locationCode, country: _data.countryCode }
     }).concat();
 
     this.setState({
       options: ports,
+      options2: countries,
      });
   }
 
+  setCountry(e) {
+    const { value, portState, port } = this.state;
+    this.setState({ value: e, port: '' });
+    if (!_.isEmpty(e)) {
+      store.dispatch(search.portSearch(portState, e.country)).then(() =>
+        this.getOptions()
+      );
+    } else {
+      store.dispatch(search.portSearch(portState, 'ALL')).then(() =>
+        this.getOptions()
+      );
+    }
+	}
+
   setPort(e) {
-    const { port, id } = this.state;
-    this.setState({ port: e, id:e.id });
+    const { port, value, id } = this.state;
+    this.setState({ port: e, value: e.country, id:e.id });
 	}
 
   selectedPort() {
@@ -62,12 +84,13 @@ export default class PortSelector extends Component {
   }
 
   render() {
-    const { portState, options, port } = this.state;
+    const { portState, options, options2, vlaue, port } = this.state;
+    const placeholder = '국가를 선택하세요.';
     const placeholder2 = '포트를 선택하세요.';
 
     return (
       <Row className="port-selector">
-        <Col sm={12} md={6}>
+        <Col sm={12} md={4}>
           <label>포트유형</label>
           <Input ref="portType" type="select" onChange={this.handleSelectPortType}>
             <option value="ALL">포트유형</option>
@@ -75,7 +98,19 @@ export default class PortSelector extends Component {
             <option value="SEAPORT">항구(Seaport)</option>
           </Input>
         </Col>
-        <Col sm={12} md={6}>
+        <Col sm={12} md={4}>
+          <label>국가</label>
+          <Select
+            name="form-field-name"
+            valueKey="value"
+            labelKey="country"
+            options={options2}
+            placeholder={placeholder}
+            onChange={e =>this.setCountry(e)}
+          	value={this.state.value}
+          />
+        </Col>
+        <Col sm={12} md={4}>
           {
             (() => {
               if (_.isEqual(portState, 'AIRPORT')) {

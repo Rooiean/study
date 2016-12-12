@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 
 import Search from 'components/user/search';
 import { SearchResult } from 'components/route';
-import { Menu } from '../contrib';
 import { search } from 'actions';
 
 import { Grid } from 'react-bootstrap';
@@ -20,8 +19,7 @@ export class Home extends Component {
     const { search, dispatch } = this.props;
     return (
       <div>
-        <Menu />
-        <div className="header">
+        <div className="header user">
           <Grid>
             <Search search={search} dispatch={dispatch} />
           </Grid>

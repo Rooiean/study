@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Label, Table, ProgressBar } from 'react-bootstrap';
+import TransportDetail from './transport-detail';
 
 export default class RouteDetail extends Component {
   constructor(props) {
@@ -26,19 +27,16 @@ export default class RouteDetail extends Component {
   }
 
   routeInformation() {
-    const { route, allPorts, transports } = this.props;
+    const { route, allPorts } = this.props;
     const reRoute = _.concat(route);
-    const minuszero = _.pullAt(reRoute, [0, 1]);
     let portAndTransArray = [];
 
-    for (let i=0; i<reRoute.length; i++){
+    for (let i=2; i<reRoute.length; i++){
       if (i%2==0) {
         const portInfo = _.find(allPorts, {'id': reRoute[i] });
         portAndTransArray.push(portInfo);
       } else {
-        let transId = _.head(_.split(reRoute[i], ':'));
-        const transInfo = _.find(transports, {'id': transId });
-        portAndTransArray.push(transInfo);
+        portAndTransArray.push(reRoute[i]);
       }
     }
 
@@ -54,13 +52,13 @@ export default class RouteDetail extends Component {
     return <ProgressBar bsStyle={progStyle} now={now} />
   }
 
-
   render() {
-    const { route } = this.props;
+    const { route, transports } = this.props;
     const { portAndTransInfo } = this.state;
     const ulStyle = {
       width: (60 * _.nth(route, 1)/3) + (route.length * 60) - 200 +'px'
     };
+    
     return (
       <div className="route-detail">
         <Table>
@@ -94,23 +92,7 @@ export default class RouteDetail extends Component {
                 </li>
               );
             } else {
-              if(_.isEqual(pinfo.type, 'VESSEL')) {
-                const timeWidth = { width: (60 * pinfo.requiredTime/3) + 'px' };
-                return (
-                  <li key={ index } className={ pinfo.type } style={timeWidth}>
-                    <div>{ pinfo.type }</div>
-                    <div>{ pinfo.requiredTime } 일</div>
-                  </li>
-                );
-              } else {
-                const timeWidth = { width: '60px' };
-                return (
-                  <li key={ index } className={ pinfo.type } style={timeWidth}>
-                    <div>{ pinfo.type }</div>
-                    <div>{ pinfo.requiredTime } 시간</div>
-                  </li>
-                );
-              }
+              return <TransportDetail pinfo={pinfo} key={index} transports={transports} />;
             }
           })
         }

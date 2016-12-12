@@ -1,13 +1,17 @@
 import React from 'react';
 import { Route, IndexRoute, Router, browserHistory } from 'react-router';
 
-import { App, AdminApp, Home, SearchRoutes, Ports, Transports, Scrapper } from './containers';
+import { App, Home, AirSchedule, TerminalSchedule, OceanSchedule,
+  AdminApp, SearchRoutes, Ports, Transports, Scrapper } from './containers';
 
 const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
       <Route path="home" component={Home} />
+      <Route path="air" component={AirSchedule} />
+      <Route path="ocean" component={OceanSchedule} />
+      <Route path="terminal" component={TerminalSchedule} />
     </Route>
     <Route path="/admin" component={AdminApp}>
       <IndexRoute component={SearchRoutes} />

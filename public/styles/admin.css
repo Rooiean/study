@@ -11,7 +11,8 @@ html, body {
         height: 100%; }
       html #app > div .iframe-container, body #app > div .iframe-container {
         height: 99.8%;
-        padding-top: 50px; }
+        padding-top: 50px;
+        background: #ffffff; }
 
 .page-wrapper {
   padding-top: 50px; }
@@ -44,6 +45,8 @@ iframe {
   background: #272634;
   color: #858598;
   padding: 30px 0; }
+  .header.user {
+    padding: 80px 0 30px 0; }
   .header a:hover {
     color: #C9C7EF; }
   .header .btn-success {
@@ -220,15 +223,15 @@ iframe {
     font-size: 10px;
     position: absolute;
     left: 30px;
-    top: 20px;
-    overflow-x: visible;
-    overflow-y: hidden; }
+    top: 40px;
+    overflow-x: visible; }
     .route-detail ul.port-list li {
       padding: 5px;
       display: block;
       float: left;
+      position: relative;
       width: 60px;
-      height: 60px;
+      height: 40px;
       line-height: 12px;
       font-weight: bold;
       background: rgba(238, 238, 238, 0.6);
@@ -245,6 +248,14 @@ iframe {
         background: #3F51B5;
         border: 1px solid #3244a8;
         color: #ffffff; }
+      .route-detail ul.port-list li .trans-date {
+        position: absolute;
+        border-left: 1px solid #000;
+        top: -20px;
+        left: 0;
+        padding-left: 5px;
+        height: 59px;
+        width: 65px; }
   .route-detail .route-info {
     position: absolute;
     right: 0;
@@ -258,6 +269,13 @@ iframe {
     .route-detail .route-info .progress {
       height: 15px;
       margin-bottom: 10px; }
+
+.port-selector .col-sm-4 {
+  padding-right: 0;
+  /* Landscape phones and down */ }
+  @media (max-width: 767px) {
+    .port-selector .col-sm-4 {
+      padding-right: 15px; } }
 
 /*sass --watch ./src/admin/styles/admin.scss:./public/styles/admin.css*/
 

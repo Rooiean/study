@@ -58,7 +58,7 @@ export default class InputFieldOverlay extends Component {
 
   handleInputChange(e) {
     const { value } = e.target;
-    const momentDay = moment(value, 'L', true);
+    const momentDay = moment(value, 'YYYY-MM-DD', true);
     if (momentDay.isValid()) {
       this.setState({
         selectedDay: momentDay.toDate(),
@@ -74,7 +74,7 @@ export default class InputFieldOverlay extends Component {
 
   handleDayClick(e, day) {
     this.setState({
-      value: moment(day).format('L'),
+      value: moment(day).format('YYYY-MM-DD'),
       selectedDay: day,
       showOverlay: false,
     });
@@ -92,7 +92,7 @@ export default class InputFieldOverlay extends Component {
         <input
           type="text"
           ref={ (el) => { this.input = el; } }
-          placeholder="DD/MM/YYYY"
+          placeholder="YYYY-MM-DD"
           value={ this.state.value }
           onChange={ this.handleInputChange }
           onFocus={ this.handleInputFocus }

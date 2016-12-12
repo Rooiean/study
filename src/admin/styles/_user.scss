@@ -1,0 +1,11 @@
+@import "_responsive.scss";
+
+.port-selector {
+  .col-sm-4 {
+    padding-right:0;
+
+    @include respond-to(xs) {
+      padding-right:15px;
+    }
+  }
+}
