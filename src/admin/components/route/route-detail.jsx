@@ -56,9 +56,9 @@ export default class RouteDetail extends Component {
     const { route, transports } = this.props;
     const { portAndTransInfo } = this.state;
     const ulStyle = {
-      width: (60 * _.nth(route, 1)/3) + (route.length * 60) - 200 +'px'
+      width: (60 * (_.nth(route, 1)/3)) + ((route.length - 2) * 60) +'px'
     };
-    
+
     return (
       <div className="route-detail">
         <Table>
@@ -88,7 +88,7 @@ export default class RouteDetail extends Component {
             if(index%2==0) {
               return(
                 <li key={ index } className={ pinfo.type }>
-                  <div>{ pinfo.name }, { pinfo.countryCode }</div>
+                  <div className="pinfo-name">{ pinfo.name }, { pinfo.countryCode }</div>
                 </li>
               );
             } else {

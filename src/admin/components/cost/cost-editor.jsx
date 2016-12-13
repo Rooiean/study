@@ -25,7 +25,7 @@ export default class CostEditor extends Component {
   }
 
   render() {
-    const { data } = store.getState().costs;
+    const { data, costsPutStatus } = store.getState().costs;
     let firstCost = _.nth(data, 0);
     return (
       <Well>
@@ -45,7 +45,9 @@ export default class CostEditor extends Component {
           <h4>Rail</h4>
           <Input type="text" ref="rail" defaultValue={firstCost.rail} />
         </Col>
-        <Button bsSize="large" bsStyle="primary" onClick={this.handlePutCost}>SAVE</Button>
+        <Button bsSize="large" bsStyle="primary" onClick={this.handlePutCost}>
+          { (_.isEqual(costsPutStatus, 'request')) ? 'SAVING...' : 'SAVE' }
+        </Button>
         <div className="cb" />
       </Well>
     );

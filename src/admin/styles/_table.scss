@@ -51,7 +51,6 @@
     text-align: center;
     div {
       display: inline-block;
-      width:8%;
       vertical-align: middle;
 
       &.sm-td {
@@ -72,6 +71,13 @@
 
       &.port-td {
         width:14.28%;
+      }
+
+      &.air-td {
+        width:16.66%;
+        div {
+          display: block;
+        }
       }
     }
   }

@@ -57,8 +57,18 @@ iframe {
 
 .result-container {
   width: 100%; }
+  .result-container .order-by {
+    margin-top: 15px;
+    float: left; }
+    .result-container .order-by label, .result-container .order-by .form-group {
+      display: inline-block;
+      margin-bottom: 0;
+      vertical-align: middle; }
+    .result-container .order-by label {
+      margin-right: 5px; }
   .result-container .count {
-    margin-top: 20px;
+    float: right;
+    margin-top: 25px;
     text-align: right;
     font-weight: normal;
     padding-bottom: 10px; }
@@ -66,6 +76,12 @@ iframe {
       font-weight: bold;
       color: #F44336;
       font-style: normal; }
+  .result-container hr {
+    border-bottom: 1px solid #ddd; }
+  .result-container .no-result {
+    font-size: 18px;
+    text-align: center;
+    padding-top: 20px; }
   .result-container .search-result {
     width: 100%;
     position: relative; }
@@ -162,7 +178,6 @@ iframe {
     text-align: center; }
     .tables .th div, .tables .tbody div {
       display: inline-block;
-      width: 8%;
       vertical-align: middle; }
       .tables .th div.sm-td, .tables .tbody div.sm-td {
         width: 4%; }
@@ -174,6 +189,10 @@ iframe {
         width: 10%; }
       .tables .th div.port-td, .tables .tbody div.port-td {
         width: 14.28%; }
+      .tables .th div.air-td, .tables .tbody div.air-td {
+        width: 16.66%; }
+        .tables .th div.air-td div, .tables .tbody div.air-td div {
+          display: block; }
 
 .detail-modal .check-boxes .form-group {
   display: inline-block;
@@ -223,7 +242,7 @@ iframe {
     font-size: 10px;
     position: absolute;
     left: 30px;
-    top: 40px;
+    top: 35px;
     overflow-x: visible; }
     .route-detail ul.port-list li {
       padding: 5px;
@@ -241,21 +260,31 @@ iframe {
       .route-detail ul.port-list li.AIRPORT {
         width: 60px;
         background: #2196F3;
-        border: 1px solid #1489e6;
         color: #ffffff; }
       .route-detail ul.port-list li.SEAPORT {
         width: 60px;
         background: #3F51B5;
-        border: 1px solid #3244a8;
+        color: #ffffff; }
+      .route-detail ul.port-list li.VESSEL {
+        background: #3F51B5;
+        color: #ffffff; }
+      .route-detail ul.port-list li.AIRCRAFT {
+        background: #2196F3;
         color: #ffffff; }
       .route-detail ul.port-list li .trans-date {
         position: absolute;
         border-left: 1px solid #000;
+        color: #000;
         top: -20px;
-        left: 0;
+        left: -1px;
         padding-left: 5px;
-        height: 59px;
+        height: 20px;
         width: 65px; }
+      .route-detail ul.port-list li .pinfo-name {
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 2px; }
   .route-detail .route-info {
     position: absolute;
     right: 0;

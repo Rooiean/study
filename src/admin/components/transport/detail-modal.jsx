@@ -144,7 +144,10 @@ export default class DetailModal extends Component {
               <Input type="text" placeholder="가격을 입력해주세요." ref="cost" />
           }
           <label>Distance</label>
-          <Input type="text" defaultValue="Distance" ref="distance" />
+          {
+            !_.isEmpty(transport) &&
+            <Input type="text" defaultValue={ transport.distance } ref="distance" />
+          }
           <label>Cycle</label>
           <div className="check-boxes">
           {

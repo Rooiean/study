@@ -78,7 +78,7 @@ export default class Transport extends Component {
           <div>{ transport.type }</div>
           <div className="lg-td">{ transport.name }</div>
           <div>{ transport.cost }</div>
-          <div className="sm-td"></div>
+          <div className="sm-td">{ transport.distance } mile</div>
           <div className="md-td">{ this.cycleNumberToWeek(transport.cycle) }</div>
           <div className="lg-td">{ this.findPortInfo(transport.sourcePort) }</div>
           <div className="lg-td">{ this.findPortInfo(transport.destinationPort) }</div>

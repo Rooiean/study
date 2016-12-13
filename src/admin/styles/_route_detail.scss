@@ -58,7 +58,7 @@
     font-size: 10px;
     position: absolute;;
     left:30px;
-    top:40px;
+    top:35px;
     overflow-x: visible;
 
     li {
@@ -78,27 +78,42 @@
       &.AIRPORT {
         width:60px;
         background: #2196F3;
-        border:1px solid #1489e6;
         color:#ffffff;
       }
 
       &.SEAPORT {
         width:60px;
         background: #3F51B5;
-        border:1px solid #3244a8;
+        color:#ffffff;
+      }
+
+      &.VESSEL {
+        background: #3F51B5;
+        color:#ffffff;
+      }
+
+      &.AIRCRAFT {
+        background: #2196F3;
         color:#ffffff;
       }
 
       .trans-date {
         position: absolute;
         border-left: 1px solid #000;
+        color:#000;
         top: -20px;
-        left: 0;
+        left: -1px;
         padding-left: 5px;
-        height: 59px;
-        width:65px;
+        height: 20px;
+        width: 65px;
       }
 
+      .pinfo-name {
+        position: absolute;
+        left:0;
+        top:0;
+        padding:2px;
+      }
     }
   }
 

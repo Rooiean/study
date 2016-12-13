@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import RouteDetail from './route-detail';
-import { Label, Table } from 'react-bootstrap';
+import { Label, Table, Input } from 'react-bootstrap';
 import store from 'store';
 
 export default class SearchResult extends Component {
@@ -9,10 +9,12 @@ export default class SearchResult extends Component {
     super(props);
 
     this.state = {
-      fistRoute: []
+      fistRoute: [],
+      order: 'cost',
     }
     this.routeOrigAndDest = this.routeOrigAndDest.bind(this);
     this.findPortInfo = this.findPortInfo.bind(this);
+    this.handleChangeOrder = this.handleChangeOrder.bind(this);
   }
 
   componentDidMount() {
@@ -42,14 +44,41 @@ export default class SearchResult extends Component {
     return <div className={ portInfo.type }>{ portInfo.name }({portInfo.locationCode}) / { portInfo.type }</div>;
   }
 
+  handleChangeOrder() {
+    const orderType = this.refs.orderBy.getValue();
+    console.log(orderType);
+
+    this.setState({order: orderType});
+  }
+
   render() {
     const { transports, allPorts } = this.props.search;
-    const { firstRoute } = this.state;
+    const { firstRoute, order } = this.state;
     const { routes, routesStatus } = store.getState().search;
+
+    let routeList = _.sortBy(routes.routes, route => parseFloat(_.nth(route, 0)));
+
+    if(_.isEqual(order, 'time')) {
+      routeList = _.sortBy(routes.routes, route => parseFloat(_.nth(route, 1)));
+    }
+
+    if (_.isEqual(order, 'takeoff')) {
+      routeList = _.sortBy(routes.routes, route => _.join(_.split(_.last(_.split(_.nth(route, 3), ':')),'-'), ''));
+      console.log(order, routeList);
+    }
 
     return (
       <div className="result-container">
+        <div className="order-by">
+          <label>정렬 : </label>
+          <Input type="select" ref="orderBy" defaultValue="cost" onChange={this.handleChangeOrder}>
+            <option value="cost">가격순</option>
+            <option value="time">시간순</option>
+            <option value="takeoff">출발날짜</option>
+          </Input>
+        </div>
         <h4 className="count">검색결과 : <em>{ routes.resultCount }</em>건</h4>
+        <hr className="cb" />
         {
           (() => {
             if (_.isEqual(routes.resultCount, 0)) {
@@ -73,12 +102,12 @@ export default class SearchResult extends Component {
                 {
                   (() => {
                     if(_.isEqual(routesStatus, 'request')) {
-                        return <div>Search...</div>;
+                        return <div className="loading">Search...</div>;
                     } else if(_.isEqual(routesStatus, 'success')) {
                       return (
-                        _.map(routes.routes, (route, index) => (
-                          <RouteDetail key={index} route={route} allPorts={allPorts} transports={transports} />
-                        ))
+                        _.map(routeList, (route, index) => {
+                          return <RouteDetail key={index} route={route} allPorts={allPorts} transports={transports} />;
+                        })
                       );
                     } else {
                       return null;

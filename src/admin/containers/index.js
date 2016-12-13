@@ -7,3 +7,4 @@ export { default as Scrapper } from './scrapper';
 export { default as SearchRoutes } from './search-routes';
 export { default as TerminalSchedule } from './terminal-schedule';
 export { default as Transports } from './transports';
+export { default as AirSchedule } from './air-schedule';

@@ -26,8 +26,22 @@
 
 .result-container {
   width:100%;
+
+  .order-by {
+    margin-top:15px;
+      float: left;
+      label, .form-group {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+      }
+      label {
+        margin-right:5px;
+      }
+  }
   .count {
-    margin-top:20px;
+    float: right;
+    margin-top:25px;
     text-align: right;
     font-weight: normal;
     padding-bottom: 10px;
@@ -37,6 +51,16 @@
       color:#F44336;
       font-style: normal;
     }
+  }
+
+  hr {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .no-result {
+    font-size: 18px;
+    text-align: center;
+    padding-top:20px;
   }
 
   .search-result {

@@ -1,14 +1,32 @@
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
+import { SearchAir, SearchAirResult } from 'components/air'
+import { air } from 'actions';
+
+import { Grid } from 'react-bootstrap';
+
 export class AirSchedule extends Component {
+  componentDidMount() {
+    this.props.dispatch(air.allAirPorts());
+  }
+
   render() {
+    const { air, dispatch } = this.props;
     return (
-      <div className="iframe-container">
-        <iframe src="http://www.tradlinx.com/small/#/search/fcl"></iframe>
+      <div>
+        <div className="header user">
+          <Grid>
+            <SearchAir air={air} dispatch={dispatch} />
+          </Grid>
+        </div>
+        <Grid>
+          { !_.isEmpty(air.schedules) && <SearchAirResult air={air} /> }
+        </Grid>
       </div>
     );
   }
 }
 
-export default connect(state=>state)(Air);
+export default connect(state => state)(AirSchedule);

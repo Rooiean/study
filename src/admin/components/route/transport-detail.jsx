@@ -36,7 +36,7 @@ export default class TransportDetail extends Component {
 
   render() {
     const { transDetail, transDates } = this.state;
-    let timeWidth = _.isEqual(transDetail.type, 'VESSEL') ? { width: (60 * transDetail.requiredTime/3) + 'px'} :  { width: '60px' };
+    let timeWidth = _.isEqual(transDetail.type, 'VESSEL') ? { width: (60 * transDetail.requiredTime/3) + 'px', minWidth: '60px' } :  { width: '60px' };
     let dayOrTime = _.isEqual(transDetail.type, 'VESSEL') ? "일" : "시간";
 
     return (
