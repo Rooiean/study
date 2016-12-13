@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import { SearchAir, SearchAirResult } from 'components/air'
-import { air } from 'actions';
+import { air, search } from 'actions';
 
 import { Grid } from 'react-bootstrap';
 
 export class AirSchedule extends Component {
   componentDidMount() {
     this.props.dispatch(air.allAirPorts());
+    this.props.dispatch(search.allPorts());
   }
 
   render() {

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Label, Table, Input, Button } from 'react-bootstrap';
 import store from 'store';
+import Schedule from './schedule';
 
 export default class SearchAirResult extends Component {
   constructor(props) {
@@ -12,7 +12,6 @@ export default class SearchAirResult extends Component {
     }
     this.routeOrigAndDest = this.routeOrigAndDest.bind(this);
     this.findPortInfo = this.findPortInfo.bind(this);
-    this.showDetailMap = this.showDetailMap.bind(this);
   }
 
   componentDidMount() {
@@ -40,10 +39,6 @@ export default class SearchAirResult extends Component {
     const { airport } = this.props.air;
     const portInfo = _.find(airport, { 'name': queryText });
     return <div className="AIRPORT">{ portInfo.name } / {portInfo.code} / { portInfo.countryCode }</div>;
-  }
-
-  showDetailMap() {
-
   }
 
   render() {
@@ -91,29 +86,7 @@ export default class SearchAirResult extends Component {
                           return (
                             _.map(schedules, (schedule, index) => {
                               return (
-                                <div className="tbody" key={index}>
-                                  <div className="air-td">{schedule.operatorName}</div>
-                                  <div className="air-td">
-                                    <div>{ schedule.srcCountryCode }</div>
-                                    <div>{ schedule.depTime }</div>
-                                  </div>
-                                  <div className="air-td">
-                                    <div>{ schedule.dstCountryCode }</div>
-                                    <div>{ schedule.arrTime}</div>
-                                  </div>
-                                  <div className="air-td">
-                                    { schedule.serviceName }
-                                  </div>
-                                  <div className="air-td">
-                                    { schedule.duration } 일
-                                  </div>
-                                  <div className="air-td">
-                                    <Button onClick={this.showDetailMap}>Detail</Button>
-                                  </div>
-                                  <div className="map">
-                                    <Map />
-                                  </div>
-                                </div>
+                                <Schedule schedule={schedule} key={index} />
                               );
                             })
                           );

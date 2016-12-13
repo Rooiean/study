@@ -193,6 +193,11 @@ iframe {
         width: 16.66%; }
         .tables .th div.air-td div, .tables .tbody div.air-td div {
           display: block; }
+  .tables .map {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; }
 
 .detail-modal .check-boxes .form-group {
   display: inline-block;
