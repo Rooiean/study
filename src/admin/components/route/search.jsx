@@ -4,7 +4,6 @@ import { Panel, Input, Select, Button, Row, Col } from 'react-bootstrap';
 import Slider from 'rc-slider';
 import SearchPortSelector from './search-port-selector';
 import { search } from 'actions';
-import store from 'store';
 
 export default class Search extends Component {
   constructor(props) {
@@ -20,11 +19,11 @@ export default class Search extends Component {
     const cost = this.refs.cost.getValue() * 100;
     const term = this.refs.term.getValue();
 
-    store.dispatch(search.routeSearch(origin, destination, depth, cost, term));
+    this.props.dispatch(search.routeSearch(origin, destination, depth, cost, term));
   }
 
   render() {
-    const { routes } = store.getState().search;
+    const { routes } = this.props.search;
 
     return (
       <form className="search-inputs">

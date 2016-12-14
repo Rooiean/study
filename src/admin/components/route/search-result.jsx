@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import RouteDetail from './route-detail';
-import { Label, Table, Input } from 'react-bootstrap';
+import { Input, ProgressBar } from 'react-bootstrap';
 import store from 'store';
 
 export default class SearchResult extends Component {
@@ -21,15 +21,15 @@ export default class SearchResult extends Component {
     this.routeOrigAndDest();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(_.isEqual(this.props.search, nextProps.search)) {
+  componentDidUpdate(prevProps) {
+    if(_.isEqual(prevProps.routes, this.props.routes)) {
       return;
     }
     this.routeOrigAndDest();
   }
 
   routeOrigAndDest() {
-    const { routes } = store.getState().search;
+    const { routes } = this.props.search;
     const { firstRoute } = this.state;
     let routeFirst = [];
     if(!_.isEmpty(routes.routes)) {
@@ -52,20 +52,8 @@ export default class SearchResult extends Component {
   }
 
   render() {
-    const { transports, allPorts } = this.props.search;
+    const { transports, allPorts, routes, routesStatus } = this.props.search;
     const { firstRoute, order } = this.state;
-    const { routes, routesStatus } = store.getState().search;
-
-    let routeList = _.sortBy(routes.routes, route => parseFloat(_.nth(route, 0)));
-
-    if(_.isEqual(order, 'time')) {
-      routeList = _.sortBy(routes.routes, route => parseFloat(_.nth(route, 1)));
-    }
-
-    if (_.isEqual(order, 'takeoff')) {
-      routeList = _.sortBy(routes.routes, route => _.join(_.split(_.last(_.split(_.nth(route, 3), ':')),'-'), ''));
-      console.log(order, routeList);
-    }
 
     return (
       <div className="result-container">
@@ -102,8 +90,23 @@ export default class SearchResult extends Component {
                 {
                   (() => {
                     if(_.isEqual(routesStatus, 'request')) {
-                        return <div className="loading">Search...</div>;
+                      return (
+                        <div className="loading">
+                          <ProgressBar active now={100} />
+                        </div>
+                      );
                     } else if(_.isEqual(routesStatus, 'success')) {
+
+                      let routeList = _.sortBy(routes.routes, route => parseFloat(_.nth(route, 0)));
+
+                      if(_.isEqual(order, 'time')) {
+                        routeList = _.sortBy(routes.routes, route => parseFloat(_.nth(route, 1)));
+                      }
+
+                      if (_.isEqual(order, 'takeoff')) {
+                        routeList = _.sortBy(routes.routes, route => _.join(_.split(_.last(_.split(_.nth(route, 3), ':')),'-'), ''));
+                      }
+
                       return (
                         _.map(routeList, (route, index) => {
                           return <RouteDetail key={index} route={route} allPorts={allPorts} transports={transports} />;

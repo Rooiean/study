@@ -125,7 +125,6 @@ export class Ports extends Component {
             <div className="port-td">Country</div>
             <div className="port-td">Location</div>
             <div className="port-td">LatLng</div>
-            <div className="port-td">Actions</div>
           </div>
           {
             (() => {

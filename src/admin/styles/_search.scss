@@ -54,7 +54,8 @@
   }
 
   hr {
-    border-bottom: 1px solid #ddd;
+    border-top: 2px solid #ccc;
+    margin-bottom: 15px;
   }
 
   .no-result {
@@ -66,31 +67,81 @@
   .search-result {
     width:100%;
     position: relative;
+    clear: both;
 
     .route-box {
       position: relative;
       padding-bottom: 50px;
     }
 
+    .air-start-end {
+      height: 40px;
+      border-top: 2px solid #333;
+      border-bottom: 1px solid #ccc;
+      background: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 37px;
+      margin-bottom: 10px;
+
+      .circle {
+        background: #e8eff7;
+        float: left;
+        width:16%;
+        height:37px;
+        text-align: center;
+      }
+
+      .start {
+        float: left;
+        width:24%;
+        text-align: center;;
+      }
+
+      .mid-line {
+        float: left;
+        width: 36%;
+        height:19px;
+        border-bottom:1px solid #333;
+        display: block;
+      }
+
+      .end {
+        float: left;
+        width:24%;
+        text-align: center;
+      }
+    }
+
+    .loading {
+      clear: both;
+      padding-top:20px;
+      text-align: center;
+
+      .progress {
+        height: 10px;
+      }
+    }
+
     .start-end {
-      height:70px;
+      height:60px;
 
       .start, .end {
         .AIRPORT, .SEAPORT {
           display: block;
-          width: 130px;
-          height: 50px;
-          padding: 10px;
+          width: 150px;
+          height: 41px;
+          padding: 5px;
           color: #ffffff;
           font-size: 11px;
           text-align: center;
-          border-radius: 10px;
+          border-radius: 5px;
           position: relative;
 
           &::before {
             position: absolute;
-            left:60px;
-            top:50px;
+            left:70px;
+            top:40px;
             content: '';
             width: 0;
             height: 0;
@@ -120,7 +171,7 @@
 
       .end {
         float: right;
-        margin-right:4.5%;
+        margin-right:3.5%;
       }
     }
 

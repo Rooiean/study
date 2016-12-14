@@ -75,15 +75,15 @@ export default class Transport extends Component {
       <div>
         <div className="tbody">
           <div className="sm-td">{ transport.id }</div>
-          <div>{ transport.type }</div>
+          <div className="td">{ transport.type }</div>
           <div className="lg-td">{ transport.name }</div>
-          <div>{ transport.cost }</div>
-          <div className="sm-td">{ transport.distance } mile</div>
+          <div className="td">{ transport.cost }</div>
+          <div className="td">{ transport.distance } km</div>
           <div className="md-td">{ this.cycleNumberToWeek(transport.cycle) }</div>
           <div className="lg-td">{ this.findPortInfo(transport.sourcePort) }</div>
           <div className="lg-td">{ this.findPortInfo(transport.destinationPort) }</div>
           <div className="sm-td">{ transport.requiredTime } 일</div>
-          <div>{ transport.status }</div>
+          <div className="td">{ transport.status }</div>
           <div className="btns">
             <Button bsStyle="primary" onClick={this.handleShowDetailModal}>수정</Button>
             <Button bsStyle="warning" onClick={this.handleShowDeleteModal}>삭제</Button>

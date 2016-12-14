@@ -11,7 +11,6 @@ export default class SearchAirResult extends Component {
       fistRoute: [],
     }
     this.routeOrigAndDest = this.routeOrigAndDest.bind(this);
-    this.findPortInfo = this.findPortInfo.bind(this);
   }
 
   componentDidMount() {
@@ -35,12 +34,6 @@ export default class SearchAirResult extends Component {
     }
   }
 
-  findPortInfo(queryText) {
-    const { airport } = this.props.air;
-    const portInfo = _.find(airport, { 'name': queryText });
-    return <div className="AIRPORT">{ portInfo.name } / {portInfo.code} / { portInfo.countryCode }</div>;
-  }
-
   render() {
     const { schedules, airport, scheduleStatus } = this.props.air;
     const { firstRoute } = this.state;
@@ -48,26 +41,39 @@ export default class SearchAirResult extends Component {
     return (
       <div className="result-container">
         <h4 className="count">검색결과 : <em>{ schedules.length }</em>건</h4>
-        <hr className="cb" />
+
         {
           (() => {
             if (_.isEqual(schedules.length, 0)) {
-                return <p className="no-result">검색 결과가 없습니다.</p>;
+                return (
+                  <div>
+                    <hr className="cb" />
+                    <p className="no-result">검색 결과가 없습니다.</p>;
+                  </div>
+                )
             }
+
             return (
               <div className="search-result">
                 {
                   (() => {
                     if(!_.isEmpty(firstRoute)) {
                         return(
-                          <div className="start-end">
-                            <div className="start">{ this.findPortInfo(firstRoute.srcPortName) }</div>
-                            <div className="end">{ this.findPortInfo(firstRoute.dstPortName) }</div>
+                          <div className="air-start-end">
+                            <div className="circle">조회 구간</div>
+                            <div className="start">
+                              { firstRoute.srcPortName } / { firstRoute.srcCountryCode }
+                            </div>
+                            <div className="mid-line" />
+                            <div className="end">
+                              { firstRoute.dstPortName } / { firstRoute.dstCountryCode }
+                            </div>
                           </div>
                         );
                     }
                   })()
                 }
+
                 <div className="route-box">
                   <div className="tables">
                     <div className="th">
@@ -78,6 +84,7 @@ export default class SearchAirResult extends Component {
                       <div className="air-td">Transport Time</div>
                       <div className="air-td">Detail</div>
                     </div>
+
                     {
                       (() => {
                         if(_.isEqual(scheduleStatus, 'request')) {

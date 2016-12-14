@@ -195,9 +195,7 @@ export default class DetailModal extends Component {
                 if (_.isEmpty(transport)) {
                     return <Input ref="sList" type="text" />;
                 } else {
-                  _.map(transport.scheduleList, (schedule, index) => {
-                    return <Input key={index} ref="sList" type="text" defaultValue={ schedule } />;
-                  })
+                    return <Input ref="sList" type="text" defaultValue={ transport.scheduleList[0] } />;
                 }
               })()
             }

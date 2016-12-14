@@ -9,16 +9,18 @@ import { Grid } from 'react-bootstrap';
 
 export class SearchRoutes extends Component {
   render() {
-    const { search } = this.props;
+    const { search, dispatch } = this.props;
+    const { routes } = this.props.search;
+
     return (
       <div className="page-wrapper">
         <div className="header">
           <Grid>
-            <Search search={search} />
+            <Search search={search} dispatch={dispatch} />
           </Grid>
         </div>
         <Grid>
-          { !_.isEmpty(search.routes) && <SearchResult search={search} /> }
+          { !_.isEqual(search.routesStatus, 'waiting') && <SearchResult search={search} routes={routes} /> }
         </Grid>
       </div>
     );

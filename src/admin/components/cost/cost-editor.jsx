@@ -3,13 +3,18 @@ import React, {Component} from 'react';
 import store from 'store';
 
 import { costs as costAction } from 'actions';
-import { Col, Well, Input, Button } from 'react-bootstrap';
+import { Col, Well, Input, Button, Modal } from 'react-bootstrap';
 
 export default class CostEditor extends Component {
   constructor(props) {
     super(props);
 
+    this.state={
+      show: false,
+    }
+
     this.handlePutCost = this.handlePutCost.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
 
   handlePutCost() {
@@ -22,6 +27,12 @@ export default class CostEditor extends Component {
       () => {
       store.dispatch(costAction.getCosts());
     });
+
+    this.setState({show: true});
+  }
+
+  hideModal() {
+    this.setState({show: false});
   }
 
   render() {
@@ -48,6 +59,22 @@ export default class CostEditor extends Component {
         <Button bsSize="large" bsStyle="primary" onClick={this.handlePutCost}>
           { (_.isEqual(costsPutStatus, 'request')) ? 'SAVING...' : 'SAVE' }
         </Button>
+
+        { (_.isEqual(costsPutStatus, 'success') && this.state.show ) &&
+          <Modal
+            className="saved-modal"
+            show={this.state.show}
+            onHide={this.hideModal}
+            >
+            <Modal.Body>
+              저장되었습니다!
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.hideModal} bsStyle="primary">확인</Button>
+            </Modal.Footer>
+          </Modal>
+         }
+
         <div className="cb" />
       </Well>
     );

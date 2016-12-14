@@ -11,33 +11,34 @@ export default class AirPortSelect extends Component {
 
     this.state = {
       port: '',
+      coder: '',
     };
   }
 
 
   setPort(e) {
     if(!_.isEmpty(e)) {
-      const { port, id } = this.state;
-      this.setState({ port: e, id: e.id });
+      const { port, code } = this.state;
+      this.setState({ port: e, code: e.code });
     } else {
-      this.setState({ port: '', id: '' });
+      this.setState({ port: '', code: '' });
     }
 	}
 
   selectedPort() {
-    return this.state.id;
+    return this.state.code;
   }
 
   render() {
     const { airport } = this.props;
-    let options = _.map(airport, _airport => ({ id: _airport.id, name: _airport.name + ' / ' +  _airport.code + ' / ' +  _airport.countryCode }));
+    let options = _.map(airport, _airport => ({ code: _airport.code, name: _airport.name + ' / ' +  _airport.code + ' / ' +  _airport.countryCode }));
 
     return (
       <Row className="port-selector">
         <Col xs={12}>
           <Select
             name="form-field-name"
-            valueKey="id"
+            valueKey="code"
             labelKey="name"
             options={options}
             placeholder='공항을 선택하세요.'

@@ -14,10 +14,6 @@ export default class Port extends Component {
           <div className="port-td">{ port.countryCode }</div>
           <div className="port-td">{ port.locationCode }</div>
           <div className="port-td">{ port.latitude }, { port.longitude }</div>
-          <div className="port-td">
-            <Button bsStyle="primary" onClick={this.handleShowDetailModal}>수정</Button>
-            <Button bsStyle="warning" onClick={this.handleShowDeleteModal}>삭제</Button>
-          </div>
         </div>
       </div>
     );

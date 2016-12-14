@@ -38,15 +38,12 @@ export default class Map extends Component {
   }
 
   findAirportArray() {
-    const { allPorts } = store.getState().search;
     const { airport } = store.getState().air;
     const { schedule } = this.props;
     let airports = [];
     const srcPort = _.find(airport, { 'name': schedule.srcPortName });
     const dstPort = _.find(airport, { 'name': schedule.dstPortName });
-    const srcPort2 = _.find(allPorts, { 'locationCode': srcPort.code });
-    const dstPort2 = _.find(allPorts, { 'locationCode': dstPort.code });
-    airports.push(srcPort2, dstPort2);
+    airports.push(srcPort, dstPort);
 
 
     this.setState({ airportInfos : airports });
@@ -54,82 +51,49 @@ export default class Map extends Component {
 
 
   onGoogleApiLoaded({map, maps}) {
-      this.setState({
-          googleApiLoaded: true
-      });
+    this.setState({
+        googleApiLoaded: true
+    });
 
-      const { airportInfos } = this.state;
+    const { airportInfos } = this.state;
 
-      const bounds = new maps.LatLngBounds();
+    console.log(airportInfos)
+    var addresses = [airportInfos[0].code, airportInfos[1].code];
+		var geocoder = new google.maps.Geocoder;
+		var locations = new Array();
 
-      function extendBounds(lat, lng) {
-          const latLng = new maps.LatLng(lat, lng);
-          bounds.extend(latLng);
-      }
+		for (var i = 0; i < addresses.length; i++) {
+				geocoder.geocode({'address': addresses[i]}, function(results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+					var location = results[0].geometry.location;
+					var marker = new google.maps.Marker({
+						map: map,
+						position: location
+					});
+					locations.push(location);
 
-      function extendCoordsBounds(airportInfos) {
-        var infowindow = new google.maps.InfoWindow();
+					var first = locations[0];
+					var second = locations[1];
 
-        var marker, i;
+					if(!(second === undefined)) {
+						var bounds = new google.maps.LatLngBounds(first, second);
+						map.fitBounds(bounds);
 
-          for (i = 0; i < airportInfos.length; i++) {
-              if (airportInfos[i].hasOwnProperty('latitude') && airportInfos[i].hasOwnProperty('longitude')) {
-                  extendBounds(airportInfos[i].latitude, airportInfos[i].longitude);
-                  var marker = new google.maps.Marker({
-                    position: {lat: airportInfos[i].latitude, lng: airportInfos[i].longitude},
-                    map: map,
-                    title: airportInfos[i].name,
-                  });
-                  google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-                    return function() {
-                      infowindow.setContent(airportInfos[i].name + '/' + airportInfos[i].countryCode);
-                      infowindow.open(map, marker);
-                    }
-                  })(marker, i));
-                  google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
-                    return function() {
-                      infowindow.close(map, marker);
-                    }
-                  })(marker, i));
-
-
-              } else if (Array.isArray(airportInfos[i])) {
-                  extendCoordsBounds(airportInfos[i]);
-              }
-          }
-      }
-
-
-      extendCoordsBounds(this.state.airportInfos);
-
-      function makePolyline(infosArray) {
-        for (let j = 0; j < infosArray.length; j++) {
-
-          let newInfos = [];
-          newInfos.push(_.nth(infosArray, 0), _.nth(infosArray, 1));
-
-          let newInfofirst = _.nth(newInfos, 0);
-
-          if(_.isEqual(newInfofirst.type, 'AIRPORT')) {
-            let latlngForFlightPoly = _.map(newInfos, info => {
-              return { lat: info.latitude, lng: info.longitude };
-            });
-            var flightPath = new google.maps.Polyline({
-               path: latlngForFlightPoly,
-               geodesic: true,
-               strokeColor: '#FF0000',
-               strokeOpacity: 1.0,
-               strokeWeight: 2
-             });
-             flightPath.setMap(map);
-          } else {
-            return null;
-          }
-        }
-      }
-
-      makePolyline(this.state.airportInfos);
-      map.fitBounds(bounds);
+						var geodesicPoly = new google.maps.Polyline({
+							strokeColor: '#CC0099',
+							strokeOpacity: 1.0,
+							strokeWeight: 3,
+							geodesic: true,
+							map: map
+						});
+						var path = [first, second];
+						geodesicPoly.setPath(path);
+					}
+				} else {
+						location = "unknown";
+				}
+			});
+		};
   }
 
 
@@ -139,7 +103,7 @@ export default class Map extends Component {
       <div className="map">
         <GoogleMap
           ref={ref}
-          height="600px"
+          height="500px"
           options={this.createMapOptions}
           zoom={5} center={[0, 0]}
           onGoogleApiLoaded={this.onGoogleApiLoaded}

@@ -34,6 +34,8 @@ export class Transports extends Component {
   componentWillReceiveProps(nextProps) {
     if(_.isEqual(nextProps.search.allPortsStatus, 'success')) {
       this.getOptions();
+    } else if(!_.isEqual(this.props.search.transports, nextProps.search.transports)) {
+      this.handleClickSearchTrans();
     }
   }
 
@@ -121,15 +123,15 @@ export class Transports extends Component {
           <hr className="cb" />
           <div className="th">
             <div className="sm-td">Id</div>
-            <div>Type</div>
+            <div className="td">Type</div>
             <div className="lg-td">Name</div>
-            <div>Cost($)</div>
-            <div className="sm-td">Distance</div>
+            <div className="td">Cost($)</div>
+            <div className="td">Distance</div>
             <div className="md-td">Cycle</div>
             <div className="lg-td">sPort</div>
             <div className="lg-td">dPort</div>
             <div className="sm-td">Time</div>
-            <div>Status</div>
+            <div className="td">Status</div>
             <div className="btns">Actions</div>
           </div>
           {

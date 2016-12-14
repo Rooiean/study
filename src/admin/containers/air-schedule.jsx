@@ -23,7 +23,7 @@ export class AirSchedule extends Component {
           </Grid>
         </div>
         <Grid>
-          { !_.isEmpty(air.schedules) && <SearchAirResult air={air} /> }
+          { _.isEqual(air.scheduleStatus, 'success') && <SearchAirResult air={air} /> }
         </Grid>
       </div>
     );

@@ -30,7 +30,7 @@ export default class Schedule extends Component {
     const { showMap } = this.state;
     return(
       <div>
-        <div className="tbody">
+        <div className="tbody air">
           <div className="air-td">{schedule.operatorName}</div>
           <div className="air-td">
             <div>{ schedule.srcCountryCode }</div>

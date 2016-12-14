@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Label, Table, ProgressBar } from 'react-bootstrap';
 import TransportDetail from './transport-detail';
+import store from 'store';
 
 export default class RouteDetail extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ export default class RouteDetail extends Component {
 
     this.state = {
       portAndTransInfo: [],
+      ulWidth: {},
     }
 
     this.routeInformation = this.routeInformation.bind(this);
@@ -19,28 +21,34 @@ export default class RouteDetail extends Component {
     this.routeInformation();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(_.isEqual(this.props.route, nextProps.route)) {
-      return;
+  componentDidUpdate(prevProps) {
+    if(!_.isEqual(prevProps.route, this.props.route)) {
+      this.routeInformation();
+      console.log('update');
     }
-    this.routeInformation();
   }
 
   routeInformation() {
     const { route, allPorts } = this.props;
-    const reRoute = _.concat(route);
     let portAndTransArray = [];
 
-    for (let i=2; i<reRoute.length; i++){
+    const ulStyle = {
+      width: (60 * (_.nth(route, 1)/3)) + ((route.length) * 60) +'px'
+    };
+
+    for (let i=2; i<route.length; i++){
       if (i%2==0) {
-        const portInfo = _.find(allPorts, {'id': reRoute[i] });
+        const portInfo = _.find(allPorts, {'id': route[i] });
         portAndTransArray.push(portInfo);
       } else {
-        portAndTransArray.push(reRoute[i]);
+        portAndTransArray.push(route[i]);
       }
     }
 
-    this.setState({ portAndTransInfo : portAndTransArray });
+    this.setState({
+      portAndTransInfo : portAndTransArray,
+      ulWidth: ulStyle,
+    });
   }
 
   costProgress(cost) {
@@ -54,10 +62,7 @@ export default class RouteDetail extends Component {
 
   render() {
     const { route, transports } = this.props;
-    const { portAndTransInfo } = this.state;
-    const ulStyle = {
-      width: (60 * (_.nth(route, 1)/3)) + ((route.length - 2) * 60) +'px'
-    };
+    const { portAndTransInfo, ulWidth } = this.state;
 
     return (
       <div className="route-detail">
@@ -82,7 +87,7 @@ export default class RouteDetail extends Component {
           </tbody>
         </Table>
         <div className="for-scroll">
-        <ul className="port-list" style={ulStyle}>
+        <ul className="port-list" style={ ulWidth }>
         {
           _.map(portAndTransInfo, (pinfo, index) => {
             if(index%2==0) {

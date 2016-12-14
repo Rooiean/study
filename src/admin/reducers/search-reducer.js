@@ -9,7 +9,7 @@ const initialState = {
   data: {},
   status: 'waiting',
   routes: [],
-  routeStatus: 'waiting',
+  routesStatus: 'waiting',
   transports: {},
   transportsStatus: 'waiting',
 };

@@ -77,33 +77,70 @@ iframe {
       color: #F44336;
       font-style: normal; }
   .result-container hr {
-    border-bottom: 1px solid #ddd; }
+    border-top: 2px solid #ccc;
+    margin-bottom: 15px; }
   .result-container .no-result {
     font-size: 18px;
     text-align: center;
     padding-top: 20px; }
   .result-container .search-result {
     width: 100%;
-    position: relative; }
+    position: relative;
+    clear: both; }
     .result-container .search-result .route-box {
       position: relative;
       padding-bottom: 50px; }
+    .result-container .search-result .air-start-end {
+      height: 40px;
+      border-top: 2px solid #333;
+      border-bottom: 1px solid #ccc;
+      background: #fff;
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 37px;
+      margin-bottom: 10px; }
+      .result-container .search-result .air-start-end .circle {
+        background: #e8eff7;
+        float: left;
+        width: 16%;
+        height: 37px;
+        text-align: center; }
+      .result-container .search-result .air-start-end .start {
+        float: left;
+        width: 24%;
+        text-align: center; }
+      .result-container .search-result .air-start-end .mid-line {
+        float: left;
+        width: 36%;
+        height: 19px;
+        border-bottom: 1px solid #333;
+        display: block; }
+      .result-container .search-result .air-start-end .end {
+        float: left;
+        width: 24%;
+        text-align: center; }
+    .result-container .search-result .loading {
+      clear: both;
+      padding-top: 20px;
+      text-align: center; }
+      .result-container .search-result .loading .progress {
+        height: 10px; }
     .result-container .search-result .start-end {
-      height: 70px; }
+      height: 60px; }
       .result-container .search-result .start-end .start .AIRPORT, .result-container .search-result .start-end .start .SEAPORT, .result-container .search-result .start-end .end .AIRPORT, .result-container .search-result .start-end .end .SEAPORT {
         display: block;
-        width: 130px;
-        height: 50px;
-        padding: 10px;
+        width: 150px;
+        height: 41px;
+        padding: 5px;
         color: #ffffff;
         font-size: 11px;
         text-align: center;
-        border-radius: 10px;
+        border-radius: 5px;
         position: relative; }
         .result-container .search-result .start-end .start .AIRPORT::before, .result-container .search-result .start-end .start .SEAPORT::before, .result-container .search-result .start-end .end .AIRPORT::before, .result-container .search-result .start-end .end .SEAPORT::before {
           position: absolute;
-          left: 60px;
-          top: 50px;
+          left: 70px;
+          top: 40px;
           content: '';
           width: 0;
           height: 0;
@@ -121,12 +158,20 @@ iframe {
         float: left; }
       .result-container .search-result .start-end .end {
         float: right;
-        margin-right: 4.5%; }
+        margin-right: 3.5%; }
 
 .cost-box .well {
   background: #ffffff; }
 .cost-box .btn-primary {
   float: right; }
+
+.saved-modal .modal-dialog {
+  width: 350px;
+  margin-top: 30%; }
+.saved-modal .modal-body {
+  padding: 30px;
+  text-align: center;
+  font-size: 15px; }
 
 .menu {
   background: #1E1E29;
@@ -176,11 +221,15 @@ iframe {
     font-size: 12px; }
   .tables .th, .tables .tbody {
     text-align: center; }
+    .tables .th.air, .tables .tbody.air {
+      font-size: 13px; }
     .tables .th div, .tables .tbody div {
       display: inline-block;
       vertical-align: middle; }
       .tables .th div.sm-td, .tables .tbody div.sm-td {
         width: 4%; }
+      .tables .th div.td, .tables .tbody div.td {
+        width: 7%; }
       .tables .th div.md-td, .tables .tbody div.md-td {
         width: 9%; }
       .tables .th div.lg-td, .tables .tbody div.lg-td {
@@ -188,7 +237,7 @@ iframe {
       .tables .th div.btns, .tables .tbody div.btns {
         width: 10%; }
       .tables .th div.port-td, .tables .tbody div.port-td {
-        width: 14.28%; }
+        width: 16.66%; }
       .tables .th div.air-td, .tables .tbody div.air-td {
         width: 16.66%; }
         .tables .th div.air-td div, .tables .tbody div.air-td div {
