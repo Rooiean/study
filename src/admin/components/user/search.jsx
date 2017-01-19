@@ -23,8 +23,7 @@ export default class Search extends Component {
     const depth = '3';
     const cost = '10000';
     const term = '100';
-    const fromdate = this.refs.oriDay.returnValue();
-
+    const fromdate = this.refs.oriDay.returnValue()-1;
 
     store.dispatch(search.routeSearch(sport, dport, depth, cost, term, fromdate));
   }

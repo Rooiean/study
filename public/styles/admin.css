@@ -31,7 +31,8 @@ html, body {
 iframe {
   width: 100%;
   border: 0;
-  height: inherit; }
+  height: inherit;
+  overflow-y: scroll; }
 
 .map {
   height: 500px; }
@@ -54,6 +55,19 @@ iframe {
     min-width: 200px; }
   .header .rc-slider {
     margin-top: 10px; }
+
+.Select-value-label {
+  max-width: 90%;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden; }
+
+.DayPicker-Day--disabled, .DayPicker-Day--outside {
+  color: #dce0e0;
+  cursor: not-allowed; }
+
+.DayPicker-Day--disabled {
+  background-color: #eff1f1; }
 
 .result-container {
   width: 100%; }

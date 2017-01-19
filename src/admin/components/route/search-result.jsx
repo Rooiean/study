@@ -22,7 +22,7 @@ export default class SearchResult extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(_.isEqual(prevProps.routes, this.props.routes)) {
+    if(_.isEqual(prevProps.search, this.props.search)) {
       return;
     }
     this.routeOrigAndDest();

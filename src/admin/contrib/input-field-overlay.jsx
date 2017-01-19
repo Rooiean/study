@@ -72,9 +72,13 @@ export default class InputFieldOverlay extends Component {
   }
 
 
-  handleDayClick(e, day) {
+  handleDayClick(e, day, { disabled, selected }) {
+    if (disabled) {
+      return;
+    }
+
     this.setState({
-      value: moment(day).format('YYYY-MM-DD'),
+      value: moment(day).format('L'),
       selectedDay: day,
       showOverlay: false,
     });
@@ -106,6 +110,7 @@ export default class InputFieldOverlay extends Component {
                 ref={ (el) => { this.daypicker = el; } }
                 onDayClick={ this.handleDayClick }
                 selectedDays={ day => DateUtils.isSameDay(this.state.selectedDay, day) }
+                disabledDays={ DateUtils.isPastDay }
               />
             </div>
           </div>

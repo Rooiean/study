@@ -47,7 +47,7 @@ export const portSearch = (type, country) => dispatch =>
 
 export const routeSearch = (sport, dport, depth, cost, term, fromdate) => dispatch =>{
   let today = new Date();
-  let dd = today.getDate();
+  let dd = today.getDate()-1;
   let mm = today.getMonth()+1; //January is 0!
   let yyyy = today.getFullYear();
 
