@@ -43,8 +43,7 @@ export default class Map extends Component {
     let airports = [];
     const srcPort = _.find(airport, { 'name': schedule.srcPortName });
     const dstPort = _.find(airport, { 'name': schedule.dstPortName });
-    airports.push(srcPort, dstPort);
-
+    airports.push({sPort:srcPort, dPort:dstPort});
 
     this.setState({ airportInfos : airports });
   }
@@ -58,7 +57,7 @@ export default class Map extends Component {
     const { airportInfos } = this.state;
 
     console.log(airportInfos)
-    var addresses = [airportInfos[0].code, airportInfos[1].code];
+    var addresses = [airportInfos[0].sPort.code, airportInfos[0].dPort.code];
 		var geocoder = new google.maps.Geocoder;
 		var locations = new Array();
 

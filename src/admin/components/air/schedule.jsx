@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import Map from './map';
 
 export default class Schedule extends Component {
   constructor(props) {
@@ -26,8 +25,9 @@ export default class Schedule extends Component {
 
 
   render() {
-    const { schedule } = this.props;
+    const { schedule, firstRoute } = this.props;
     const { showMap } = this.state;
+    console.log(firstRoute);
     return(
       <div>
         <div className="tbody air">
@@ -46,11 +46,7 @@ export default class Schedule extends Component {
           <div className="air-td">
             { schedule.duration } 일
           </div>
-          <div className="air-td">
-            <Button onClick={this.showDetailMap}><i className="fa fa-map-o" /></Button>
-          </div>
         </div>
-      { (showMap) && <Map schedule={schedule} /> }
       </div>
     );
   }

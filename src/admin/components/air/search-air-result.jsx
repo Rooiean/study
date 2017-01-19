@@ -37,6 +37,7 @@ export default class SearchAirResult extends Component {
   render() {
     const { schedules, airport, scheduleStatus } = this.props.air;
     const { firstRoute } = this.state;
+    console.log(firstRoute);
 
     return (
       <div className="result-container">
@@ -48,7 +49,7 @@ export default class SearchAirResult extends Component {
                 return (
                   <div>
                     <hr className="cb" />
-                    <p className="no-result">검색 결과가 없습니다.</p>;
+                    <p className="no-result">검색 결과가 없습니다.</p>
                   </div>
                 )
             }
@@ -82,7 +83,6 @@ export default class SearchAirResult extends Component {
                       <div className="air-td">Destination</div>
                       <div className="air-td">Flight</div>
                       <div className="air-td">Transport Time</div>
-                      <div className="air-td">Detail</div>
                     </div>
 
                     {
@@ -93,7 +93,7 @@ export default class SearchAirResult extends Component {
                           return (
                             _.map(schedules, (schedule, index) => {
                               return (
-                                <Schedule schedule={schedule} key={index} />
+                                <Schedule schedule={schedule} key={index} firstRoute={firstRoute}/>
                               );
                             })
                           );
