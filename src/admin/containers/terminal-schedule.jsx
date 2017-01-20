@@ -5,7 +5,7 @@ export class TerminalSchedule extends Component {
   render() {
     return (
       <div className="iframe-container">
-        <iframe src="http://localhost/noheader/#/terminal/schedule"></iframe>
+        <iframe src="http://www.tradlinx.com/noheader/#/terminal/schedule"></iframe>
       </div>
     );
   }
