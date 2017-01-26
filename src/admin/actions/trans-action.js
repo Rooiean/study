@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { createAction } from 'redux-actions';
 
-const prefix = 'http://138.91.25.49:4567';
+const prefix = 'http://40.74.122.172:4567';
 
 export const PUT_TRANSPORT = '[API] PUT_TRANSPORT';
 export const POST_TRANSPORT = '[API] POST_TRANSPORT';

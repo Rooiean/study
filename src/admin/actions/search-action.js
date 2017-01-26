@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { createAction } from 'redux-actions';
 
-const prefix = 'http://138.91.25.49:4567';
+const prefix = 'http://40.74.122.172:4567';
 
 export const ALL_PORTS = '[API] ALL_PORTS';
 export const ALL_TRANSPORTS = '[API] ALL_TRANSPORTS';

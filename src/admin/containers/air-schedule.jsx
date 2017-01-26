@@ -15,6 +15,7 @@ export class AirSchedule extends Component {
 
   render() {
     const { air, dispatch } = this.props;
+    console.log(air);
     return (
       <div>
         <div className="header user">
